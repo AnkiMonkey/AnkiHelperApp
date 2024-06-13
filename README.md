@@ -3,8 +3,10 @@ CSV-to-ANKI
 This pipeline provides a way to create complex flashcards in Excel (uploading to ANKI as .csv(utf8)) with appropriate cross-reference sources and jpg files created from lecture pdf file. 
 It is based on ANKING's notetype addon (addon 952691989). 
 Containing files:
+
 **1) Excel template **[CSV-to-ANKI.xlsl]
    Template for staying organized on a complex flashcards with a given lecture cross-reference, reference for added jpg, tag. 
+   
 **2) Python file** [JPG-from-PDF.py]
 The python file creates ennumerated jpg files from de-cluttered pdf in the same folder as 'jpg_from_NAME-OF-PDF-FILE'.
 Following this process:
