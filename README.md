@@ -9,8 +9,12 @@ Containing files:
    
 **2) Python file** [JPG-from-PDF.py]
 The python file creates ennumerated jpg files from de-cluttered pdf in the same folder as 'jpg_from_NAME-OF-PDF-FILE'.
-Following this process:
-lecture >> de-cluttered pdf >> enumerated jpg [JPG-from-PDF.py] >> Excel [CSV-to-ANKI.xlsl] >> ANKI (optimally FSRS mode - Q2/2024)
+
+
+Useful in following learning pipeline:
+lecture >> de-cluttered pdf >> enumerated jpg [JPG-from-PDF.py] 
+
+>> Excel [CSV-to-ANKI.xlsl] >> ANKI (optimally FSRS mode - Q2/2024)
 
 Columns as follows:
 
