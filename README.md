@@ -4,8 +4,8 @@ It is based on ANKING's notetype addon (addon 952691989).
 
 Containing files:
 
-**1) Excel template ** [CSV-to-ANKI.xlsl]
-   Template for staying organized on a complex flashcards with a given lecture cross-reference, reference for added jpg, tag. 
+**1) Excel template** [CSV-to-ANKI.xlsl]
+   A template for staying organized on complex flashcards with a given lecture cross-reference, reference to add jpg, tag. 
    
 **2) Python file** [JPG-from-PDF.py]
 The python file creates ennumerated jpg files from de-cluttered pdf in the same folder as 'jpg_from_NAME-OF-PDF-FILE'.
@@ -15,19 +15,24 @@ lecture >> de-cluttered pdf >> enumerated jpg [JPG-from-PDF.py] >> Excel [CSV-to
 Columns as follows:
 C1: Front
 C2: Back
-C3: Personal Notes >> reference to jpg needed as source in ANKI***, same format as C4
+C3: Personal Notes >> reference to jpg needed as source in ANKI (to be added in ANKI w/ simple drag and drop), same format as C4
 C4: Source >> V/P# S# (Vorlesung/Praktikum + Slide, e.g. V1 S2)
 C5: Tag >> e.g. Subject::V1 indicating Vorlesung 1
 
-*** to be added in ANKI w/ simple drag and drop
+*** 
 
-
----
+## Functionality
+1) Tested on ANKI 24.06.2 Qt6
+2) ANKING's notetype addon (addon 952691989) needed
+3) Upon importing: 3a) separated by COMMA 3b) check each category if 
 ## Notes Q2/2024
 -this system seems to be best of both worlds - providing  ANKING's notetype integrated to Excel deployable template
 
 ## TO-DO-LIST
--converting directly jpg as width=450, this 
+-converting directly jpg as width=450 in app, upon trying, this resulted in blurry jpg in ANKI
+-solved as manually adding width=450
+-this bug persistent in other resizing add-ons 
+-
 
 
 
