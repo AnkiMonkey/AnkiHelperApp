@@ -30,9 +30,9 @@ C5: Tag >> e.g. Subject::V1 indicating Vorlesung 1
 
 ## TO-DO-LIST
 -converting directly jpg as width=450 in app, upon trying, this resulted in blurry jpg in ANKI
--solved as manually adding width=450
 -this bug persistent in other resizing add-ons 
--
+-for now, resizing solved by doing manually in ANKI (adding htlm of Personal Notes with 'width=450')
+-if needed, adding complex Excel fctions to work with internal data within sheets (e.g. VLOOKUP)
 
 
 
