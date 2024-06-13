@@ -13,7 +13,7 @@ The python file creates ennumerated jpg files from de-cluttered pdf in the same 
 
 Useful in following learning pipeline:
 
-lecture >> de-cluttered pdf >> enumerated jpg [JPG-from-PDF.py] >> Excel [CSV-to-ANKI.xlsl] >> ANKI (optimally FSRS mode - Q2/2024)
+lecture >> de-cluttered pdf >> enumerated jpg [JPG-from-PDF.py] >> Excel [CSV-to-ANKI.xlsl] >> csv >> ANKI (optimally FSRS mode - Q2/2024)
 
 Columns as follows:
 
