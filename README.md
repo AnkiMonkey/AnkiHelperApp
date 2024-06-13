@@ -13,10 +13,15 @@ Following this process:
 lecture >> de-cluttered pdf >> enumerated jpg [JPG-from-PDF.py] >> Excel [CSV-to-ANKI.xlsl] >> ANKI (optimally FSRS mode - Q2/2024)
 
 Columns as follows:
+
 C1: Front
+
 C2: Back
+
 C3: Personal Notes >> reference to jpg needed as source in ANKI (to be added in ANKI w/ simple drag and drop), same format as C4
+
 C4: Source >> V/P# S# (Vorlesung/Praktikum + Slide, e.g. V1 S2)
+
 C5: Tag >> e.g. Subject::V1 indicating Vorlesung 1
 
 *** 
