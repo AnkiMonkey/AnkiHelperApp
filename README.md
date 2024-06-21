@@ -32,7 +32,7 @@ C5: Tag >> e.g. Subject::V1 indicating Vorlesung 1
 ## Functionality
 1) Tested on ANKI 24.06.2 Qt6
 2) ANKING's notetype addon (addon 952691989) needed
-3) Upon importing: 3a) separated by COMMA 3b) check each category if 
+3) Upon importing: 3a) separated by COMMA 3b) check each category if matches C1-C5
 ## Notes Q2/2024
 -this system seems to be best of both worlds - providing  ANKING's notetype integrated to Excel deployable template
 
@@ -46,6 +46,3 @@ C5: Tag >> e.g. Subject::V1 indicating Vorlesung 1
 -adding complex Excel fctions to work with internal data within sheets (e.g. VLOOKUP)
 
 -adding dropdown lists w/ conditional formatting 
-
-
-
