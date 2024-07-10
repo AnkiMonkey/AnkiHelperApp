@@ -6,10 +6,19 @@ Containing files:
 
 **1) Excel template** [CSV-to-ANKI.xlsl]
    A template for staying organized on complex flashcards with a given lecture cross-reference, reference to add jpg, tag. 
+   In trial (see **CSV-TO-ANKI_example_personal_notes_as_html_crosslink.csv**) Personal Notes + Sources as HTML crosslink to folder in which ANKI stores all pictures, following pipeline to be followed:
+   [1] Copy paste pics needed to given folder
+   [2] Adapt Personal Notes for given jpeg based on this snippet:
+   **<img src="V_01-S_01.jpg" data-editor-shrink="false" width="450">**
+   -make sure that given jpeg is in the ANKI folder  (make sure to follow step [1])
+   -the snippet also ensures width=450
+   -due to complicated name, automatic ennumeration in Excel not possible, Python app       needed
+   -ennumerated Personal Notes will appear, need to be adapted based on provided slides
+   -to be seen in practice if Copy/Paste is not simplier on 09/24 
+   [3] Run **add_personal_notes.py** 
    
 **2) Python file** [JPG-from-PDF.py]
 The python file creates ennumerated jpg files from de-cluttered pdf in the same folder as 'jpg_from_NAME-OF-PDF-FILE'.
-
 
 Useful in following learning pipeline:
 
