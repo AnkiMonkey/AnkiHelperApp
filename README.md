@@ -9,9 +9,9 @@ Containing files:
    In trial (see **CSV-TO-ANKI_example_personal_notes_as_html_crosslink.csv**) Personal Notes + Sources as HTML crosslink to folder in which ANKI stores all pictures, following pipeline to be followed:
    [1] Copy paste pics needed to given folder
    [2] Adapt Personal Notes for given jpeg based on this snippet:
-   ###<
+<
          img src="V_01-S_01.jpg" data-editor-shrink="false" width="450" 
-         >###
+         >
    
    -make sure that given jpeg is in the ANKI folder  (make sure to follow step [1])
    
