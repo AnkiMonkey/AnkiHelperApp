@@ -10,10 +10,15 @@ Containing files:
    [1] Copy paste pics needed to given folder
    [2] Adapt Personal Notes for given jpeg based on this snippet:
    **<img src="V_01-S_01.jpg" data-editor-shrink="false" width="450">**
+   
    -make sure that given jpeg is in the ANKI folder  (make sure to follow step [1])
+   
    -the snippet also ensures width=450
+   
    -due to complicated name, automatic ennumeration in Excel not possible, Python app       needed
+   
    -ennumerated Personal Notes will appear, need to be adapted based on provided slides
+   
    -to be seen in practice if Copy/Paste is not simplier on 09/24 
    [3] Run **add_personal_notes.py** 
    
