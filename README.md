@@ -54,6 +54,7 @@ The Excel ANKI-Template is created for ANKING Notetype
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+Launch app *AnkiHelperApp*
 Upon launching the app, you can choose from the following options:
 
 - [1] View Flashcards Template (anki_template.csv)
