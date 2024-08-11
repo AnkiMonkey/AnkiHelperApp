@@ -61,7 +61,7 @@ Upon launching the app, you can choose from the following options:
       
 - [2] Export Lectures to JPG (pdf_to_jpg.py)
       Converts lecture slides from a PDF file to JPEG images for ANKI review. The user is promted to write a name and number of Vorlesung/Praktikum 
-      -based on this logical names: 
+      -based on these logical names: 
       subject_name_V/P_##_S_##
       (V/P - Vorlesung/Praktikum; S - Slide; ## - 01,02,10)
       e.g. O-CHEM1_V_01_S02
