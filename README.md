@@ -12,7 +12,7 @@
     </ul>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#to-do">TO-DO</a></li>
+    <li><a href="#roadmap">ADDITIONAL NOTES</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -30,6 +30,22 @@ The app includes functionalities to streamline the following tasks:
 - [2] Exporting lecture slides to JPG to be used on flashcards.
 - [3] Semi-automating the process of adding personal notes as HTML crosslink.
 - [4] Moving exported JPG files to the ANKI pictures directory (being cross-linked as HTML).
+
+### Pipeline
+
+The pipeline is an upgrated mix of following ideas with some tweeks:
+
+- ANKING NOTETYPE
+- CSV as input to ANKI
+- HTML links instead of copy/paste of pictures
+
+### Tweeks
+- Excel to be used as general manager for notes with 
+- 
+
+For links see
+
+<p align="left">(<a href="#ADDITIONAL NOTES">see ADDITIONAL NOTES</a>)</p>
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
@@ -84,6 +100,8 @@ In Excel, following functions can be used:
 
 e.g. *=HYPERLINK("#'V01'!A1", "Click to see Vorlesung01")* 
 
+Here keyboard shortcut Ctrl + PgUp/PgDn recommended for moving in sheets
+
 - [2] Hyperlinks to pdf of lecture from location
 - 
 *=HYPERLINK("location_of_pdf", "text_to_see")*
@@ -93,6 +111,10 @@ e.g. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")*
 <p align="left">(<a href="#roadmap">for detailed steps, see roadmap</a>)</p>
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
+
+From the template, only sheet called *3 ANKI ALL-LECTURES* to be exported to csv (UTF-8), all sheets are to be copy/pasted here 
+
+(for future, event. as VBA macro selecting all values in all sheets but 1-3; here is the challenge the variability though)
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -115,14 +137,6 @@ e.g. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")*
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- TO-DO -->
-## TO-DO
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
-
-- Implement automation for `anki_template.csv` preprocessing.
-- Enhance functionality for lecture slide conversion.
-- Improve error handling and user prompts.
-
 <!-- ADDITIONAL NOTES -->
 ## Additional Notes
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
@@ -137,7 +151,8 @@ e.g. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")*
   b) width=450
 - Run `add_personal_notes.py` to automate the HTML crosslink generation using Python (pandas library).
 
-Source:
+Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
+[1]  
 [https://www.youtube.com/watch?v=s0QQJp8HPd0](https://www.youtube.com/watch?v=s0QQJp8HPd0)
 
 <!-- CONTACT -->
