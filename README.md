@@ -166,7 +166,9 @@ From the template, only sheet called *3 ANKI ALL-LECTURES* to be exported to csv
 Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 
 [1]  **The AnKing Note Types and Add-on** *https://www.youtube.com/watch?v=NYUhNMyAZNs*
-[2]  **Importing Flashcards Into Anki** *[https://www.youtube.com/watch?v=s0QQJp8HPd0](https://www.youtube.com/watch?v=s0QQJp8HPd0)*
+
+[2]  **Importing Flashcards Into Anki** *[[https://www.youtube.com/watch?v=s0QQJp8HPd0](https://www.youtube.com/watch?v=s0QQJp8HPd0)](https://www.youtube.com/watch?v=DIkynwCHLfA)*
+
 [3] **Stop copying and pasting images into your flashcards.** *https://www.youtube.com/watch?v=s0QQJp8HPd0*
 
 <!-- CONTACT -->
