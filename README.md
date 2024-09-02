@@ -54,7 +54,7 @@ The Excel ANKI-Template is created for ANKING Notetype
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-# Python app
+### Python app
 Launch app *AnkiHelperApp*
 Upon launching the app, you can choose from the following options:
 
@@ -74,7 +74,7 @@ Upon launching the app, you can choose from the following options:
 - [4] Move Exported JPG to ANKI Pictures Directory and Link as HTML
       Moves the exported JPG files to the ANKI pictures directory and creates HTML links for ANKI cards.
 
-# Excel 
+### Excel 
 In Excel, following functions can be used: 
 
 - [1] Hyperlinks to sheets with lectures
