@@ -12,7 +12,7 @@
     </ul>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#Additional Notes">Additional Notes</a></li>
+    <li><a href="#additional-notes">Additional Notes</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -46,7 +46,7 @@ The pipeline is an upgrated mix of following ideas with some tweeks:
 
 For links see
 
-<p align="left">(<a href="#Additional Notes">for detailed references, see Additional Notes</a>)</p>
+<p align="left">(<a href="#additional-notes">for detailed references, see Additional Notes</a>)</p>
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
@@ -140,6 +140,8 @@ From the template, only sheet called *3 ANKI ALL-LECTURES* to be exported to csv
 
 <!-- ADDITIONAL NOTES -->
 ## Additional Notes
+<a id="additional-notes"></a>
+
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
 [1] Add JPEGs to ANKI Pictures Folder:
