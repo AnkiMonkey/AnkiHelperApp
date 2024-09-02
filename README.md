@@ -56,6 +56,7 @@ The Excel ANKI-Template is created for ANKING Notetype
 
 ### Python app
 Launch app *AnkiHelperApp*
+
 Upon launching the app, you can choose from the following options:
 
 - [1] View Flashcards Template (anki_template.csv)
@@ -78,11 +79,15 @@ Upon launching the app, you can choose from the following options:
 In Excel, following functions can be used: 
 
 - [1] Hyperlinks to sheets with lectures
-*=HYPERLINK("#'name_of_sheet'!A1", "text_to_see")* 
+- 
+*=HYPERLINK("#'name_of_sheet'!A1", "text_to_see")*
+
 e.g. *=HYPERLINK("#'V01'!A1", "Click to see Vorlesung01")* 
 
 - [2] Hyperlinks to pdf of lecture from location
+- 
 *=HYPERLINK("location_of_pdf", "text_to_see")*
+
 e.g. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")*
 
 <p align="left">(<a href="#roadmap">for detailed steps, see roadmap</a>)</p>
