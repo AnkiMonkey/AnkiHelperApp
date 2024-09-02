@@ -54,6 +54,7 @@ The Excel ANKI-Template is created for ANKING Notetype
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+# Python app
 Launch app *AnkiHelperApp*
 Upon launching the app, you can choose from the following options:
 
@@ -73,20 +74,21 @@ Upon launching the app, you can choose from the following options:
 - [4] Move Exported JPG to ANKI Pictures Directory and Link as HTML
       Moves the exported JPG files to the ANKI pictures directory and creates HTML links for ANKI cards.
 
+# Excel 
+In Excel, following functions can be used: 
+
+- [1] Hyperlinks to sheets with lectures
+*=HYPERLINK("#'name_of_sheet'!A1", "text_to_see")* 
+e.g. *=HYPERLINK("#'V01'!A1", "Click to see Vorlesung01")* 
+
+- [2] Hyperlinks to pdf of lecture from location
+*=HYPERLINK("location_of_pdf", "text_to_see")*
+e.g. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")*
+
 <p align="left">(<a href="#roadmap">for detailed steps, see roadmap</a>)</p>
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
-In Excel, following functions can be used: 
-
-- [1] Hyperlinks to sheets with lectures
-=HYPERLINK("#'name_of_sheet'!A1", "text_to_see") 
-e.g. =HYPERLINK("#'V01'!A1", "Click to see Vorlesung01") 
-
-- [2] Hyperlinks to pdf of lecture from location
-=HYPERLINK("location_of_pdf", "text_to_see")
-e.g. =HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")
-- 
 <!-- ROADMAP -->
 ## Roadmap
 <a id="roadmap"></a>
