@@ -163,7 +163,7 @@ Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 
 Timon Nemeth - timon.nemeth@gmail.com
 
-Project Link: [[https://github.com/AnkiMonkey/ANKI-Lectures-Management](https://github.com/AnkiMonkey/ANKI-Lectures-Management](https://github.com/AnkiMonkey/AnkiHelperApp))
+Project Link: https://github.com/AnkiMonkey/ANKI-Lectures-Management
 
 ---
 
