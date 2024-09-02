@@ -12,7 +12,7 @@
     </ul>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#roadmap">ADDITIONAL NOTES</a></li>
+    <li><a href="#ADDITIONAL NOTES">ADDITIONAL NOTES</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -40,12 +40,13 @@ The pipeline is an upgrated mix of following ideas with some tweeks:
 - HTML links instead of copy/paste of pictures
 
 ### Tweeks
-- Excel to be used as general manager for notes with 
-- 
+- Excel to be used as general manager for notes with crosslinks in sheets and to lectures in pdf;
+  
+- Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named. 
 
 For links see
 
-<p align="left">(<a href="#ADDITIONAL NOTES">see ADDITIONAL NOTES</a>)</p>
+<li><a href="#ADDITIONAL NOTES">ADDITIONAL NOTES</a></li>
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
