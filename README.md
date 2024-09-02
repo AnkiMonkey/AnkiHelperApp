@@ -77,6 +77,16 @@ Upon launching the app, you can choose from the following options:
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
+In Excel, following functions can be used: 
+
+- [1] Hyperlinks to sheets with lectures
+=HYPERLINK("#'name_of_sheet'!A1", "text_to_see") 
+e.g. =HYPERLINK("#'V01'!A1", "Click to see Vorlesung01") 
+
+- [2] Hyperlinks to pdf of lecture from location
+=HYPERLINK("location_of_pdf", "text_to_see")
+e.g. =HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")
+- 
 <!-- ROADMAP -->
 ## Roadmap
 <a id="roadmap"></a>
