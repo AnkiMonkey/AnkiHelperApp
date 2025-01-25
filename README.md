@@ -20,14 +20,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-ANKI Lectures Management is a semi-automated tool designed to automate the management of exporting lecture materials and notes from lectures (as pdf) to ANKI as follows:
+ANKI Lectures Management is a semi-automated tool designed to automate the management of exporting lecture materials and notes from lectures/books (as pdf) to ANKI as follows:
 
-LECTURE (pdf) >> Flashcards in Excel (csv), JPG from PDF >> ANKI 
+LECTURE/BOOK (pdf) >> Flashcards in Excel (csv), JPG from PDF >> ANKI 
 
 The app includes functionalities to streamline the following tasks:
 
 - [1] Opening an Excel-template for creating flashcards.
-- [2] Exporting lecture slides to JPG to be used on flashcards.
+- [2] Exporting lecture/book slides to JPG to be used on flashcards.
 - [3] Semi-automating the process of adding personal notes as HTML crosslink.
 - [4] Moving exported JPG files to the ANKI pictures directory (being cross-linked as HTML).
 
@@ -56,14 +56,6 @@ For links see
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
 ### Prerequisites
-Ensure you have Python installed. Additionally, the following Python libraries are required:
-
-- pandas
-- openpyxl
-- matplotlib
-- fitz
-- PIL
-
 Ensure you have ANKI installed (V. 24.06.3 Qt6 or above)
 The Excel ANKI-Template is created for ANKING Notetype, otherwise adapt only for Basic type. 
 
@@ -73,16 +65,16 @@ The Excel ANKI-Template is created for ANKING Notetype, otherwise adapt only for
 ## Usage
 
 ### Python app
-Launch app *AnkiHelperApp*
+Launch app *1_AnkiHelperApp/py*
 
 Upon launching the app, you can choose from the following options:
 
 - [1] View Flashcards Template (anki_template.csv)
       Opens the ANKI flashcards template in Excel for viewing and editing.
       
-- [2] Export Lectures to JPG (pdf_to_jpg.py)
+- [2] Export Lecture/Book to JPG (pdf_to_jpg.py)
   
-      Converts lecture slides from a PDF file to JPEG images for ANKI review. The user is promted to write a name and number of Vorlesung/Praktikum
+      Converts lecture/book slides from a PDF file to JPEG images for ANKI review. The user is promted to write a name and number of Vorlesung/Praktikum
   
       -based on these logical names:
   
@@ -92,14 +84,24 @@ Upon launching the app, you can choose from the following options:
   
       e.g. O-CHEM1_V_01_S02
       
-- [3] Add Personal Notes as HTML (add_personal_notes.py)
+- [3] Add Personal Notes and Source/Missed Questions (for cloze) as HTML
 
-      Processes ANKI template data to add HTML image tags when 'Source' information is missing.
+      Processes ANKI template data to add HTML image tags when Personal Notes and Source/Missed Questions information is missing.
       
 - [4] Move Exported JPG to ANKI Pictures Directory and Link as HTML
 
       Moves the exported JPG files to the ANKI pictures directory and creates HTML links for ANKI cards.
+  
+- [5] Extract TXT from PDF
 
+      As Copy/Pasting from PDF is ofter problematic, TXT can be extracted from given PDF
+  
+- [6] Delete pages from PDF
+
+- [7] Rename PDF files
+  
+
+  
 ### Excel 
 
 In Excel, following functions can be used: 
@@ -158,10 +160,13 @@ From the template, only sheet called *3 ANKI ALL-LECTURES* to be exported to csv
   Paste to this folder (path): `C:\Users\timon\AppData\Roaming\Anki2\1. Timon - Pharmazeutische Fakultät\collection.media`
 
 [2] Adapt the CSV File for HTML Crosslinks:
-- In the ANKI Personal Notes specified both:
+- In Excel Personal Notes and/or Source/Missed Questions (for cloze) transformation will specifie both:
   a) Jpeg crosslink
   b) width=450
-- Run `add_personal_notes.py` to automate the HTML crosslink generation using Python (pandas library).
+
+
+The lecture/book slide is to be written as 1,2,10,99,999 to columns under Personal Notes and/or Source/Missed Questions
+
 
 Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 
