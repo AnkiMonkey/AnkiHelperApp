@@ -99,7 +99,11 @@ Upon launching the app, you can choose from the following options:
 - [6] Delete pages from PDF
 
 - [7] Rename PDF files
+
+- [8] Add tag to csv
   
+        Adds tag based on input to column 'Tags' - where cells are empty
+        Ensures this does not need to be done manually in Excel
 
   
 ### Excel 
