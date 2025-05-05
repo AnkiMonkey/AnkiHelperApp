@@ -47,9 +47,11 @@ The pipeline is an upgrated mix of following ideas with some tweeks:
   <img src="./1.png" alt="Diagram" width="500"/>
 </p>
 
-- Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named
+- Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named, can be filter within one sheet with all notes
 
-For links see
+<p align="center">
+  <img src="./2.png" alt="Diagram" width="500"/>
+</p>
 
 <p align="left">(<a href="#additional-notes">for detailed references, Additional Notes</a>)</p>
 
@@ -60,7 +62,6 @@ For links see
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
 ### Prerequisites
-Ensure you have ANKI installed (V. 24.06.3 Qt6 or above)
 The Excel ANKI-Template is created for ANKING Notetype, otherwise adapt only for Basic type. 
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
@@ -69,7 +70,7 @@ The Excel ANKI-Template is created for ANKING Notetype, otherwise adapt only for
 ## Usage
 
 ### Python app
-Launch app *1_AnkiHelperApp/py*
+Launch app *1_AnkiHelperApp.py*
 
 Upon launching the app, you can choose from the following options:
 
