@@ -41,8 +41,12 @@ The pipeline is an upgrated mix of following ideas with some tweeks:
 
 ### Tweeks
 
-- Excel to be used as general manager for notes with crosslinks in sheets and to lectures in pdf
-  
+- Excel to be used as general manager for notes with crosslinks in sheets and to lectures in pdf:
+
+<p align="center">
+  <img src="./1.png" alt="Diagram" width="500"/>
+</p>
+
 - Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named
 
 For links see
