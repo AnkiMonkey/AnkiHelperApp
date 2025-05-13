@@ -56,7 +56,7 @@ The pipeline is an upgrated mix of following ideas with some tweeks:
   <img src="./1.png" alt="Diagram" width="500"/>
 </p>
 
-- Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named, can be filter within one sheet with all notes
+- Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named, tags can be filtered within one sheet > notes for ∀ topic to be found here
 
 <p align="center">
   <img src="./2.png" alt="Diagram" width="500"/>
@@ -116,9 +116,8 @@ Upon launching the app, you can choose from the following options:
 
 - [8] Add tag to csv
   
-        Adds tag based on input to column 'Tags' - where cells are empty
+        Adds wished tag based on input to column 'Tags' (where cells are empty)
         Ensures this does not need to be done manually in Excel
-
   
 ### Excel 
 
@@ -173,19 +172,14 @@ From the template, only sheet called *3 ANKI ALL-LECTURES* to be exported to csv
 
 <p align="left">(<a href="#readme-top">back to top</a>)</p>
 
-[1] Add JPEGs to ANKI Pictures Folder:
-- Move the exported JPEG files to the ANKI pictures directory where they are stored. This folder path is also pinned by Quick access:
-  Paste to this folder (path): `C:\Users\timon\AppData\Roaming\Anki2\1. Timon - Pharmazeutische Fakultät\collection.media`
-
-[2] Adapt the CSV File for HTML Crosslinks:
+[1] Adapt the CSV File for HTML Crosslinks:
 - In Excel Personal Notes and/or Source/Missed Questions (for cloze) transformation will specifie both:
   a) Jpeg crosslink
   b) width=450
 
-
 The lecture/book slide is to be written as 1,2,10,99,999 to columns under Personal Notes and/or Source/Missed Questions
 
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 
 [1]  **The AnKing Note Types and Add-on** *https://www.youtube.com/watch?v=NYUhNMyAZNs*
@@ -193,7 +187,7 @@ Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 [2]  **Importing Flashcards Into Anki** *[[https://www.youtube.com/watch?v=s0QQJp8HPd0](https://www.youtube.com/watch?v=s0QQJp8HPd0)](https://www.youtube.com/watch?v=DIkynwCHLfA)*
 
 [3] **Stop copying and pasting images into your flashcards.** *https://www.youtube.com/watch?v=s0QQJp8HPd0*
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <!-- CONTACT -->
 ## Contact
 
