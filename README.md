@@ -2,8 +2,7 @@
 
 <h3 align="center">ANKI Lectures Management</h3>
 
-![Main Window](main_window.png)
-
+<img src="main_window.png" width="400">
 
 <!-- TABLE OF CONTENTS -->
 <details>
