@@ -53,13 +53,13 @@ The pipeline is an upgrated mix of following ideas with some tweeks:
 - Excel to be used as general manager for notes with crosslinks in sheets and to lectures in pdf:
 
 <p align="center">
-  <img src="./1.png" alt="Diagram" width="500"/>
+  <img src="./1.png" alt="Diagram" width="600"/>
 </p>
 
 - Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named, tags can be filtered within one sheet > notes for ∀ topic to be found here
 
 <p align="center">
-  <img src="./2.png" alt="Diagram" width="500"/>
+  <img src="./2.png" alt="Diagram" width="600"/>
 </p>
 
 <p align="left">(<a href="#additional-notes">for detailed references, Additional Notes</a>)</p>
