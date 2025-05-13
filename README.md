@@ -31,10 +31,14 @@ LECTURE/BOOK (pdf) >> Flashcards in Excel (csv), JPG from PDF >> ANKI
 
 The app includes functionalities to streamline the following tasks:
 
-- [1] Opening an Excel-template for creating flashcards.
-- [2] Exporting lecture/book slides to JPG to be used on flashcards.
-- [3] Semi-automating the process of adding personal notes as HTML crosslink.
-- [4] Moving exported JPG files to the ANKI pictures directory (being cross-linked as HTML).
+- [1] Open Excel-templates for creating flashcards.
+- [2] Export lecture/book slides to JPG to be used on flashcards.
+- [3] Add personal notes + source as HTML crosslink.
+- [4] Move exported JPG files to the ANKI pictures directory (being cross-linked as HTML).
+- [5] Extract TXT from PDF (e.g. from lecture)
+- [6] Delete Pages from PDF
+- [7] Rename PDF files
+- [8] Add Tag to CSV
 
 ### Pipeline
 
@@ -75,7 +79,7 @@ The Excel ANKI-Template is created for ANKING Notetype, otherwise adapt only for
 ## Usage
 
 ### Python app
-Launch app *1_AnkiHelperApp.py*
+Launch app *AnkiHelperApp.exe*
 
 Upon launching the app, you can choose from the following options:
 
