@@ -186,7 +186,8 @@ Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 
 [2]  **Importing Flashcards Into Anki** *[[https://www.youtube.com/watch?v=s0QQJp8HPd0](https://www.youtube.com/watch?v=s0QQJp8HPd0)](https://www.youtube.com/watch?v=DIkynwCHLfA)*
 
-[3] **Stop copying and pasting images into your flashcards.** *https://www.youtube.com/watch?v=s0QQJp8HPd0*
+[3] **Stop copying and pasting images into your flashcards** *https://www.youtube.com/watch?v=s0QQJp8HPd0*
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <!-- CONTACT -->
 ## Contact
