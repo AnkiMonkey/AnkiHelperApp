@@ -1,223 +1,218 @@
 ﻿<a id="readme-top"></a>
 
-<h3 align="center">ANKI Lectures Management</h3>
-
+<h3 align="center">Správa prednášok pre ANKI</h3>
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Obsah</summary>
   <ol>
-    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#about-the-project">O projekte</a></li>
     <ul>
-      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#prerequisites">Požiadavky</a></li>
     </ul>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#additional-notes">Additional Notes</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#usage">Použitie</a></li>
+    <li><a href="#roadmap">Postup</a></li>
+    <li><a href="#additional-notes">Ďalšie poznámky</a></li>
+    <li><a href="#contact">Kontakt</a></li>
   </ol>
 </details>
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## O projekte
 
-ANKI Lectures Management is a semi-automated tool designed to prepare Cvičenie, Prednáška, and Kniha materials from PDF/CSV files for ANKI.
+Tento nástroj je určený pre Slovákov a pomáha pripravovať materiály Cvičenie, Prednáška a Kniha z PDF/CSV súborov pre ANKI.
 
-PDF / CSV in the same app folder >> JPG images / edited CSV / TXT / modified PDF >> ANKI
+PDF/CSV v tej istej zložke aplikácie >> JPG obrázky / upravené CSV / TXT / upravené PDF >> ANKI
 
-The app includes functionalities to streamline the following tasks:
+Aplikácia obsahuje funkcie na zjednodušenie nasledujúcich úloh:
 
-- [1] Otvoriť tento priečinok.
+- [1] Otvoriť priečinok s aplikáciou.
 - [2] Exportovať PDF do JPG.
-- [3] Pridať obrázkové tagy do CSV.
-- [4] Kopírovať / presunúť JPG súbory.
+- [3] Pridať do CSV HTML značky pre obrázky.
+- [4] Kopírovať alebo presunúť JPG súbory.
 - [5] Extrahovať TXT z PDF.
 - [6] Vymazať strany z PDF.
 - [7] Premenovať PDF súbory.
 - [8] Pridať tag do CSV.
-- [9] Opraviť stĺpec Back.
+- [9] Opraviť stĺpec Back pre import do ANKI.
 
-### Pipeline
+### Riešenie
 
-The pipeline is an upgrated mix of following ideas with some tweeks:
+Tento pracovný tok je kombináciou viacerých nápadov a vylepšení:
 
-- ANKING NOTETYPE
-- CSV as input to ANKI
-- HTML links of pictures located in ANKI Folder instead of copy/paste 
+- používanie ANKING notetype
+- CSV ako vstup pre ANKI
+- HTML odkazy na obrázky uložené v ANKI priečinku namiesto manuálneho kopírovania
 
-### Tweeks
+### Vylepšenia
 
-- Excel to be used as general manager for notes with crosslinks in sheets and to lectures in pdf:
+- Excel slúži ako manažér poznámok s prepojeniami medzi listami a odkazmi na prednášky v PDF.
 
 <p align="center">
   <img src="./1.png" alt="Diagram" width="600"/>
 </p>
 
-- Each topic on new sheet reachable from main sheet via crosslink, ennumerated and named, tags can be filtered within one sheet > notes for âˆ€ topic to be found here
+- Každá téma môže mať vlastný list so vzájomným prepojením z hlavného listu, číslovaním a názvom. Tagy sa dajú filtrovať v jednom liste.
 
 <p align="center">
   <img src="./2.png" alt="Diagram" width="600"/>
 </p>
 
-<p align="left">(<a href="#additional-notes">for detailed references, Additional Notes</a>)</p>
+<p align="left">(<a href="#additional-notes">podrobnejšie informácie v časti Ďalšie poznámky</a>)</p>
 
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
+## Začíname
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
-### Prerequisites
-The Excel ANKI-Template is created for ANKING Notetype, otherwise adapt only for Basic type. 
+### Požiadavky
+Excelová šablóna ANKI je vytvorená pre ANKING notetype. Ak používate základný typ (Basic), prispôsobte šablónu podľa seba.
 
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Použitie
 
-### Python app
-Launch the GUI app *anki_gui.py* with Python.
+### Python aplikácia
+Spustite GUI aplikáciu *anki_gui.py* pomocou Pythonu.
 
-The older console app *anki_app.exe* can still be kept in the folder, but the active GUI interface is in Slovak.
+Staršiu konzolovú aplikáciu *anki_app.exe* môžete ponechať vo zložke, ale aktívne rozhranie je v slovenčine.
 
-After launching the GUI, you can choose from the following options:
+Po spustení GUI si môžete vybrať jednu z nasledujúcich možností:
 
 - [1] Otvoriť tento priečinok
 
-      Opens the folder where the app is located. Put PDFs and CSVs in this same folder.
+      Otvorí priečinok, v ktorom je aplikácia. Vložte sem PDF a CSV súbory.
 
 - [2] Exportovať PDF do JPG
 
-      Converts PDF pages to JPEG images for ANKI review.
+      Konvertuje stránky PDF do JPEG obrázkov pre ANKI.
 
-      For Cvičenie/Prednáška material, the app asks for subject name, type, and number.
+      Ak ide o materiál Cvičenie/Prednáška, aplikácia sa opýta na názov predmetu, typ a číslo.
 
-      Based on these logical names:
+      Súborové mená sa generujú podľa logiky:
 
       subject_name_C/P_##_S_##
 
-      (C/P - Cvičenie/Prednáška; S - Slide/Page; ## - 01,02,10)
+      (C/P – Cvičenie/Prednáška; S – strana/slajd; ## – 01,02,10)
 
-      e.g. O-CHEM1_C_01_S_02
-      e.g. O-CHEM1_P_01_S_02
+      Napr. O-CHEM1_C_01_S_02
+      Napr. O-CHEM1_P_01_S_02
 
-      For Kniha material:
+      Pre Knihu:
 
-      KNIHA_bookname_S_##
+      KNIHA_nazovknihy_S_##
 
 - [3] Pridať obrázkové tagy do CSV
 
-      Processes CSV data and adds ANKI HTML image tags to selected columns.
+      Spracuje CSV dáta a pridá HTML značky pre obrázky do vybraných stĺpcov.
 
-      Supported columns: Source, Personal Notes, Extra, Missed Questions.
+      Podporované stĺpce: Source, Personal Notes, Extra, Missed Questions.
 
 - [4] Kopírovať / presunúť JPG súbory
 
-      Copies or moves exported JPG files to a destination folder.
-      For ANKI, choose the collection.media folder.
+      Skopíruje alebo presunie exportované JPG súbory do cieľového priečinka.
+      Pre ANKI vyberte priečinok collection.media.
 
 - [5] Extrahovať TXT z PDF
 
-      Extracts text from a selected PDF into a TXT file.
+      Extrahuje text z vybraného PDF do TXT súboru.
 
 - [6] Vymazať strany z PDF
 
-      Creates a new modified PDF with selected pages removed.
-      Example input: 1,3,5-7
+      Vytvorí nový upravený PDF súbor s odstránenými vybranými stranami.
+      Príklad vstupu: 1,3,5-7
 
 - [7] Premenovať PDF súbory
 
-      Renames selected PDF files in the app folder.
+      Premenuje vybrané PDF súbory v priečinku aplikácie.
 
 - [8] Pridať tag do CSV
 
-      Adds the wished tag to the Tags column only where cells are empty.
+      Pridá požadovaný tag do stĺpca Tags len tam, kde sú bunky prázdne.
 
 - [9] Opraviť stĺpec Back
 
-      Fixes Back field formatting for ANKI HTML import.
+      Opraví formátovanie poľa Back pre ANKI HTML import.
 
-### Excel 
+### Excel
 
-In Excel, following functions can be used: 
+V Exceli môžete použiť tieto funkcie:
 
-- [1] Hyperlinks to sheets with lectures
-  
-*=HYPERLINK("#'name_of_sheet'!A1", "text_to_see")*
+- [1] Hypertextové prepojenia na listy s prednáškami
 
-e.g. *=HYPERLINK("#'P01'!A1", "Click to see Prednáška01")* 
+  *=HYPERLINK("#'nazov_listu'!A1", "text_na_zobrazenie")*
 
-Here keyboard shortcut *Ctrl + PgUp/PgDn* recommended for moving in sheets
+  napr. *=HYPERLINK("#'P01'!A1", "Klikni pre Prednáška01")*
 
-- [2] Hyperlinks to pdf of lecture from location
-- 
-*=HYPERLINK("location_of_pdf", "text_to_see")*
+  Na presun medzi listami použite skratku *Ctrl + PgUp/PgDn*.
 
-e.g. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Open Lecture01")*
+- [2] Hypertextové prepojenie na PDF prednášky
 
-<p align="left">(<a href="#roadmap">for detailed steps, see roadmap</a>)</p>
+  *=HYPERLINK("cesta_k_pdf", "text_na_zobrazenie")*
 
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
+  napr. *=HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Otvoriť Lecture01")*
 
-From the template, only sheet called *3 ANKI ALL-LECTURES* to be exported to csv (UTF-8), all sheets, i.e. ANKI notes, are to be copy/pasted here 
+<p align="left">(<a href="#roadmap">podrobnejšie kroky v časti Postup</a>)</p>
 
-(for future, event. as VBA macro selecting all values in all sheets but 1-3; here is the challenge the variability though)
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
+
+Zo šablóny treba exportovať iba list *3 ANKI ALL-LECTURES* do CSV (UTF-8). Všetky listy s ANKI poznámkami sa skopírujú sem.
+
+(pre budúcnosť možno ako VBA makro, ktoré vyberie hodnoty zo všetkých listov okrem 1-3; problémom je však variabilita)
 
 <!-- ROADMAP -->
-## Roadmap
+## Postup
 <a id="roadmap"></a>
 
-1. **Prepare the Input Files:**
-   - Put your PDF and CSV files in the same folder as `anki_gui.py`.
-   - Export CSV files from Excel as UTF-8.
-   - Put page numbers into the CSV columns that should become image tags.
-   
-2. **Run the GUI:**
-   - Run `anki_gui.py` with Python.
-   - Use the Slovak buttons in the main window.
+1. **Pripravte vstupné súbory:**
+   - Vložte PDF a CSV do rovnakého priečinka ako `anki_gui.py`.
+   - Exportujte CSV súbory z Excelu do kódovania UTF-8.
+   - Do CSV stĺpcov, ktoré majú byť obrázkovými tagmi, napíšte čísla strán.
 
-3. **Output:**
-   - Depending on your selection:
-     - [1] Folder opened.
-     - [2] PDF pages exported to JPEG images.
-     - [3] CSV image tags created.
-     - [4] JPG files copied or moved to the ANKI media folder.
-     - [5] TXT extracted from PDF.
-     - [6] Modified PDF created with selected pages deleted.
-     - [7] PDF files renamed.
-     - [8] Tags added to CSV.
-     - [9] Back column formatting fixed.
+2. **Spustite GUI:**
+   - Spustite `anki_gui.py` pomocou Pythonu.
+   - Použite slovenské tlačidlá v hlavnom okne.
 
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
+3. **Výstup:**
+   - Podľa výberu:
+     - [1] Priečinok sa otvorí.
+     - [2] PDF stránky sa exportujú do JPEG obrázkov.
+     - [3] V CSV sa vytvoria obrázkové tagy.
+     - [4] JPG súbory sa skopírujú alebo presunú do priečinka ANKI media.
+     - [5] Z PDF sa extrahuje TXT.
+     - [6] Vytvorí sa upravené PDF s odstránenými stranami.
+     - [7] PDF súbory sa premenú.
+     - [8] Do CSV sa pridajú tagy.
+     - [9] Opraví sa formátovanie stĺpca Back.
+
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- ADDITIONAL NOTES -->
-## Additional Notes
+## Ďalšie poznámky
 <a id="additional-notes"></a>
 
-<p align="left">(<a href="#readme-top">back to top</a>)</p>
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
-[1] Adapt the CSV File for HTML Crosslinks:
-- In Excel Personal Notes and/or Source/Missed Questions (for cloze) transformation will specifie both:
-  a) Jpeg crosslink
+[1] Prispôsobiť CSV súbor pre HTML prepojenia:
+- V Exceli v stĺpcoch Personal Notes a/alebo Source/Missed Questions pre cloze sa vložia:
+  a) odkaz na JPEG
   b) width=450
 
-The Cvičenie/Prednáška/Kniha page number is to be written as 1,2,10,99,999 to columns under Personal Notes and/or Source/Missed Questions.
+Čísla strán pre Cvičenie/Prednáška/Kniha sa zapisujú ako 1,2,10,99,999 do stĺpcov Personal Notes a/alebo Source/Missed Questions.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
+Zdroje inšpirácie (kombinácia ANKING notetype a CSV vstupu s HTML odkazmi):
 
 [1]  **The AnKing Note Types and Add-on** *https://www.youtube.com/watch?v=NYUhNMyAZNs*
 
-[2]  **Importing Flashcards Into Anki** *[[https://www.youtube.com/watch?v=s0QQJp8HPd0](https://www.youtube.com/watch?v=s0QQJp8HPd0)](https://www.youtube.com/watch?v=DIkynwCHLfA)*
+[2]  **Importing Flashcards Into Anki** *https://www.youtube.com/watch?v=s0QQJp8HPd0*
 
 [3] **Stop copying and pasting images into your flashcards** *https://www.youtube.com/watch?v=s0QQJp8HPd0*
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <!-- CONTACT -->
-## Contact
+## Kontakt
 
-## Contact
-
-For questions, open a GitHub Issue in this repository.
-
-
+Pre otázky otvorte GitHub Issue v tomto repozitári.
