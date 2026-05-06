@@ -220,7 +220,8 @@ Sources for the idea (mixed ANKING notetype + input as CSV w/ HTML links):
 <!-- CONTACT -->
 ## Contact
 
-Timon Nemeth - timon.nemeth@gmail.com
+## Contact
 
-Project Link: [https://github.com/AnkiMonkey/ANKI-Lectures-Management](https://github.com/AnkiMonkey/AnkiHelperApp)
+For questions, open a GitHub Issue in this repository.
+
 
