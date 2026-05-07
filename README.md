@@ -2,6 +2,10 @@
 
 <h3 align="center">Správa prednášok pre ANKI</h3>
 
+<p align="center">
+  <img src="./1.png" alt="Excel overview" width="600"/>
+</p>
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Obsah</summary>
