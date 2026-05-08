@@ -3,7 +3,7 @@
 <h3 align="center">Správa prednášok pre ANKI</h3>
 
 <p align="center">
-  <img src="./2.png" alt="Excel overview" width="600"/>
+  <img src="./2.png" alt="Excel overview" width="500"/>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -68,7 +68,7 @@ Excel slúži ako hlavný prehľad prednášok a poznámok. V jednom súbore sa 
 Každá téma môže mať vlastný list. Z hlavného listu sa dá prekliknúť priamo na konkrétnu prednášku alebo tému. Tagy sa dajú filtrovať a pripraviť na export do ANKI.
 
 <p align="center">
-  <img src="./2.png" alt="Excel sheet example" width="800"/>
+  <img src="./2.png" alt="Excel sheet example" width="500"/>
 </p>
 
 <p align="left">(<a href="#additional-notes">podrobnejšie informácie v časti Ďalšie poznámky</a>)</p>
@@ -96,7 +96,7 @@ Excelová šablóna je pripravená pre ANKING notetype vid: https://github.com/A
 Tu je vzor, ako má vyzerať príprava dát v Exceli:
 
 <p align="center">
-  <img src="./3.png" alt="Excel template example" width="600"/>
+  <img src="./3.png" alt="Excel template example" width="800"/>
 </p>
 
 Do príslušných stĺpcov sa zapisujú čísla strán alebo slajdov. Aplikácia z nich potom vytvorí HTML odkazy na obrázky pre ANKI.
