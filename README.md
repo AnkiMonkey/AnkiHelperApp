@@ -111,8 +111,6 @@ Spustite GUI aplikáciu:
 python anki_gui.py
 ```
 
-Staršiu konzolovú verziu `anki_app.exe` môžete ponechať lokálne vo svojom počítači, ale hlavné rozhranie je súbor `anki_gui.py`.
-
 Po spustení GUI si môžete vybrať jednu z týchto možností:
 
 ### [1] Otvoriť tento priečinok
@@ -140,7 +138,7 @@ Vysvetlenie:
 - `C` = cvičenie,
 - `P` = prednáška,
 - `S` = strana alebo slajd,
-- `##` = číslo vo formáte 01, 02, 10.
+- `##` = číslo vo formáte 01, 02, 10. (resp. ak ma dokument nad 100 strán, číslo vo formáte 001, 002, 099...)
 
 Príklady:
 
@@ -149,7 +147,7 @@ O-CHEM1_C_01_S_02
 O-CHEM1_P_01_S_02
 ```
 
-Pre dokument, napríklad vypracovanie alebo knihu, sa používa formát podľa názvu PDF bez prefixu `KNIHA`:
+Pre dokument, napríklad vypracovanie alebo knihu, sa používa formát podľa názvu PDF:
 
 ```text
 pdf_name_S_##
