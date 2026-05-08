@@ -67,9 +67,6 @@ Excel slúži ako hlavný prehľad prednášok a poznámok. V jednom súbore sa 
 
 Každá téma môže mať vlastný list. Z hlavného listu sa dá prekliknúť priamo na konkrétnu prednášku alebo tému. Tagy sa dajú filtrovať a pripraviť na export do ANKI.
 
-<p align="center">
-  <img src="./2.png" alt="Excel sheet example" width="500"/>
-</p>
 
 <p align="left">(<a href="#additional-notes">podrobnejšie informácie v časti Ďalšie poznámky</a>)</p>
 
