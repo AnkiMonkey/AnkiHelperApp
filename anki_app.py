@@ -154,7 +154,7 @@ def add_images_to_csv(folder):
     if not csv_path:
         return
 
-    mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Kniha"])
+    mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
     fieldnames, rows = read_csv_rows(csv_path)
     columns = ask_columns(fieldnames)
     if not columns:
@@ -169,8 +169,8 @@ def add_images_to_csv(folder):
         number = ask_int(f"Číslo {prefix}: ", 0)
         base_name = f"{subject}_{prefix}_{number:02d}"
     else:
-        book = ask("Skratka/názov knihy: ")
-        base_name = f"KNIHA_{book}"
+        document_name = ask("Názov dokumentu/PDF bez .pdf: ")
+        base_name = document_name
 
     for row in rows:
         for column in columns:
@@ -255,7 +255,7 @@ def pdf_to_jpg(folder):
         print("Neboli vybrané platné PDF súbory.")
         return
 
-    mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Kniha"])
+    mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
     if mode == 0:
         subject = ask("Skratka predmetu: ")
         content_type = choose_from_menu("Typ materiálu", ["Cvičenie", "Prednáška"])
@@ -264,7 +264,7 @@ def pdf_to_jpg(folder):
         base_for_pdf = lambda pdf: f"{subject}_{prefix}_{number:02d}"
         dpi = None
     else:
-        base_for_pdf = lambda pdf: f"KNIHA_{pdf.stem}"
+        base_for_pdf = lambda pdf: pdf.stem
         dpi = 300
 
     try:
@@ -298,7 +298,7 @@ def extract_text_from_pdf(folder):
     if not pdf_path:
         return
 
-    mode = choose_from_menu("Typ textu", ["Prednáška s oddeľovačmi strán", "Kniha - vyčistený text"])
+    mode = choose_from_menu("Typ textu", ["Prednáška s oddeľovačmi strán", "Dokument - vyčistený text"])
 
     try:
         import fitz

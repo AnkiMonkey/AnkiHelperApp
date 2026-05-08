@@ -154,10 +154,17 @@ O-CHEM1_C_01_S_02
 O-CHEM1_P_01_S_02
 ```
 
-Pre knihu sa používa formát:
+Pre dokument, napríklad vypracovanie alebo knihu, sa používa formát podľa názvu PDF bez prefixu `KNIHA`:
 
 ```text
-KNIHA_nazovknihy_S_##
+pdf_name_S_##
+```
+
+Príklad pre PDF `Memorix.pdf`:
+
+```text
+Memorix_S_01.jpg
+Memorix_S_02.jpg
 ```
 
 ### [3] Pridať obrázkové tagy do CSV

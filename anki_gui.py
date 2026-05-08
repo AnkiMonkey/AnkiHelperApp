@@ -73,7 +73,7 @@ def number_from_cell(value):
 def image_tag(filename, width=450):
     return f'<img src="{filename}" data-editor-shrink="false" width="{width}">'
 
-
+# Svaly - odstup, upon, inervacia, fcia
 def fix_back_field(text):
     if text is None:
         return ""
@@ -215,7 +215,7 @@ class AnkiGui(tk.Tk):
         return CheckboxDialog(self, "Stĺpce na úpravu", available).result or []
 
     def ask_base_name(self):
-        mode = self.ask_choice("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Kniha"])
+        mode = self.ask_choice("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
         if mode is None:
             return None
 
@@ -234,17 +234,17 @@ class AnkiGui(tk.Tk):
                 return None
             return lambda pdf_path=None: f"{subject.strip()}_{prefix}_{number:02d}", mode
 
-        book = simpledialog.askstring(APP_NAME, "Skratka/názov knihy:", parent=self)
-        if not book:
+        document_name = simpledialog.askstring(APP_NAME, "Názov dokumentu/PDF bez .pdf:", parent=self)
+        if not document_name:
             return None
-        return lambda pdf_path=None: f"KNIHA_{book.strip()}", mode
+        return lambda pdf_path=None: document_name.strip(), mode
 
     def pdf_to_jpg(self):
         pdfs = self.choose_many_files("*.pdf", "Vyber PDF súbory")
         if not pdfs:
             return
 
-        mode = self.ask_choice("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Kniha"])
+        mode = self.ask_choice("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
         if mode is None:
             return
 
@@ -262,7 +262,7 @@ class AnkiGui(tk.Tk):
             base_for_pdf = lambda pdf: f"{subject.strip()}_{prefix}_{number:02d}"
             dpi = None
         else:
-            base_for_pdf = lambda pdf: f"KNIHA_{pdf.stem}"
+            base_for_pdf = lambda pdf: pdf.stem
             dpi = 300
 
         import fitz
@@ -355,7 +355,7 @@ class AnkiGui(tk.Tk):
         if not pdf_path:
             return
 
-        mode = self.ask_choice("Typ textu", ["Prednáška s oddeľovačmi strán", "Kniha - vyčistený text"])
+        mode = self.ask_choice("Typ textu", ["Prednáška s oddeľovačmi strán", "Dokument - vyčistený text"])
         if mode is None:
             return
 
