@@ -28,8 +28,6 @@ Tento nástroj zjednodušuje prípravu prednášok, cvičení a knižných mater
 
 Základná pipeline:
 
-PDF / CSV v priečinku aplikácie → JPG obrázky / upravené CSV / TXT / upravené PDF → ANKI
-
 Aplikácia obsahuje funkcie na zjednodušenie týchto úloh:
 
 - [1] Otvorenie priečinka s aplikáciou.
@@ -52,7 +50,7 @@ Celý workflow je postavený na jednoduchej myšlienke:
 - aplikácia vytvorí HTML odkazy na obrázky,
 - CSV sa importuje do ANKI.
 
-Používa sa najmä:
+Používa sa:
 
 - ANKING notetype,
 - CSV import do ANKI,
@@ -70,7 +68,7 @@ Excel slúži ako hlavný prehľad prednášok a poznámok. V jednom súbore sa 
 Každá téma môže mať vlastný list. Z hlavného listu sa dá prekliknúť priamo na konkrétnu prednášku alebo tému. Tagy sa dajú filtrovať a pripraviť na export do ANKI.
 
 <p align="center">
-  <img src="./2.png" alt="Excel sheet example" width="600"/>
+  <img src="./2.png" alt="Excel sheet example" width="800"/>
 </p>
 
 <p align="left">(<a href="#additional-notes">podrobnejšie informácie v časti Ďalšie poznámky</a>)</p>
@@ -93,7 +91,7 @@ Potrebujete:
 - PDF súbory s prednáškami alebo cvičeniami,
 - CSV súbor pripravený na import do ANKI.
 
-Excelová šablóna je pripravená hlavne pre ANKING notetype. Ak používate základný typ kariet Basic, treba si prispôsobiť stĺpce podľa vlastnej šablóny.
+Excelová šablóna je pripravená pre ANKING notetype vid: https://github.com/AnKing-VIP/AnKing-Note-Types 
 
 Tu je vzor, ako má vyzerať príprava dát v Exceli:
 
@@ -355,6 +353,7 @@ Kombinácia ANKING notetype, CSV importu a HTML odkazov na obrázky:
 
 [1] **The AnKing Note Types and Add-on**  
 https://www.youtube.com/watch?v=NYUhNMyAZNs
+https://github.com/AnKing-VIP/AnKing-Note-Types 
 
 [2] **Importing Flashcards Into Anki**  
 https://www.youtube.com/watch?v=s0QQJp8HPd0
