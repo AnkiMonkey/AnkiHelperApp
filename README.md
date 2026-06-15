@@ -3,6 +3,10 @@
 <h3 align="center">Správa prednášok pre ANKI</h3>
 
 <p align="center">
+  <img src="./logo.png" alt="Excel overview" width="250"/>
+</p>
+
+<p align="center">
   <img src="./2.png" alt="Excel overview" width="500"/>
 </p>
 
