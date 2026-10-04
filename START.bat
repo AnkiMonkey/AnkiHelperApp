@@ -11,5 +11,17 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
+
+rem 1. pokus: GUI s oknom
 %PY% anki_gui.py
-if errorlevel 1 pause
+if not errorlevel 1 exit /b 0
+
+rem 2. pokus: GUI spadlo -^> konzolova verzia
+echo.
+echo ==================================================
+echo  GUI sa nepodarilo spustit, chyba je vypisana vyssie.
+echo  Spustam konzolovu verziu (anki_app.py)...
+echo ==================================================
+echo.
+%PY% anki_app.py
+pause
