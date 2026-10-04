@@ -3,11 +3,11 @@
 <h3 align="center">Správa prednášok pre ANKI</h3>
 
 <p align="center">
-  <img src="./logo.png" alt="Excel overview" width="250"/>
+  <img src="./logo.png" alt="AnkiMonkey logo" width="250"/>
 </p>
 
 <p align="center">
-  <img src="./2.png" alt="Excel overview" width="500"/>
+  <img src="./2.png" alt="AnkiHelperApp GUI" width="500"/>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -19,6 +19,7 @@
       <li><a href="#prerequisites">Požiadavky</a></li>
     </ul>
     <li><a href="#usage">Použitie</a></li>
+    <li><a href="#excel">Excel šablóna</a></li>
     <li><a href="#roadmap">Postup</a></li>
     <li><a href="#additional-notes">Ďalšie poznámky</a></li>
     <li><a href="#contact">Kontakt</a></li>
@@ -26,18 +27,18 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+<a id="about-the-project"></a>
+
 ## O projekte
 
-Tento nástroj zjednodušuje prípravu prednášok, cvičení a knižných materiálov do ANKI. Pomáha spracovať PDF a tabuľky (CSV/TSV) tak, aby sa dali rýchlejšie použiť pri tvorbe ANKI kariet.
+Tento nástroj zjednodušuje prípravu prednášok, cvičení a knižných materiálov do ANKI. Spracuje PDF a tabuľky (XLSX, CSV, TSV) tak, aby sa z nich dali rýchlo spraviť ANKI karty s obrázkami slajdov.
 
-Základná pipeline:
-
-Aplikácia obsahuje funkcie na zjednodušenie týchto úloh:
+Aplikácia obsahuje tieto funkcie:
 
 - [1] Otvorenie priečinka s aplikáciou.
 - [2] Export PDF strán do JPG obrázkov.
 - [3] Pridanie HTML tagov pre obrázky (výstup TSV pre Anki).
-- [4] Kopírovanie alebo presun JPG súborov.
+- [4] Kopírovanie alebo presun obrázkov (napr. do `collection.media`).
 - [5] Extrakcia TXT textu z PDF.
 - [6] Vymazanie vybraných strán z PDF.
 - [7] Premenovanie PDF súborov.
@@ -50,9 +51,9 @@ Celý workflow je postavený na jednoduchej myšlienke:
 
 - prednášky a cvičenia sú uložené ako PDF,
 - PDF sa rozdelí na obrázky,
-- v Exceli sa určia čísla strán,
-- aplikácia vytvorí HTML odkazy na obrázky,
-- výsledné TSV sa importuje do ANKI bez mapovania stĺpcov.
+- v Exceli sa ku kartám zapíšu čísla strán,
+- z čísel strán vzniknú HTML odkazy na obrázky (v Exceli vzorcom alebo v aplikácii),
+- výsledné TSV sa importuje do ANKI.
 
 Používa sa:
 
@@ -71,28 +72,26 @@ Excel slúži ako hlavný prehľad prednášok a poznámok. V jednom súbore sa 
 
 Každá téma môže mať vlastný list. Z hlavného listu sa dá prekliknúť priamo na konkrétnu prednášku alebo tému. Tagy sa dajú filtrovať a pripraviť na export do ANKI.
 
-
 <p align="left">(<a href="#additional-notes">podrobnejšie informácie v časti Ďalšie poznámky</a>)</p>
 
 <p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- GETTING STARTED -->
-## Začíname
-
-<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
+<a id="prerequisites"></a>
 
 ### Požiadavky
 
 Potrebujete:
 
-- Python,
+- Windows a Python 3.10+ (pri inštalácii zaškrtnúť „Add to PATH“),
 - Excel alebo iný tabuľkový editor,
-- ANKI,
+- ANKI 2.1.54 alebo novšie (kvôli TSV hlavičkám),
 - ANKING notetype,
-- PDF súbory s prednáškami alebo cvičeniami,
-- CSV export z Excelu (čiarka aj stredník) alebo TSV.
+- PDF súbory s prednáškami alebo cvičeniami.
 
-Excelová šablóna je pripravená pre ANKING notetype vid: https://github.com/AnKing-VIP/AnKing-Note-Types 
+Knižnice (PyMuPDF, Pillow, openpyxl) doinštaluje `START.bat` sám.
+
+Excelová šablóna (`Excel_sablona.xlsx`) je pripravená pre ANKING notetype, viď https://github.com/AnKing-VIP/AnKing-Note-Types
 
 Tu je vzor, ako má vyzerať príprava dát v Exceli:
 
@@ -100,16 +99,18 @@ Tu je vzor, ako má vyzerať príprava dát v Exceli:
   <img src="./3.png" alt="Excel template example" width="800"/>
 </p>
 
-Do príslušných stĺpcov sa zapisujú čísla strán alebo slajdov. Aplikácia z nich potom vytvorí HTML odkazy na obrázky pre ANKI.
+Do príslušných stĺpcov sa zapisujú čísla strán alebo slajdov. Z nich potom vzniknú HTML odkazy na obrázky pre ANKI.
 
 <p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- USAGE EXAMPLES -->
+<a id="usage"></a>
+
 ## Použitie
 
 ### Spustenie
 
-**Dvojklik na `START.bat`** – pri prvom spustení doinštaluje knižnice a otvorí appku.
+**Dvojklik na `START.bat`** – pri prvom spustení doinštaluje knižnice a otvorí aplikáciu.
 
 Ručne:
 
@@ -123,17 +124,19 @@ Konzolová verzia: `python anki_app.py`. Testy: `pip install -r requirements-dev
 Štruktúra:
 
 ```text
-anki_gui.py      GUI (tkinter)
-anki_app.py      konzolová verzia
-core/            spoločná logika (tabuľky, strany, PDF, médiá)
-tests/           pytest
+START.bat           spustenie jedným klikom
+anki_gui.py         GUI (tkinter)
+anki_app.py         konzolová verzia
+core/               spoločná logika (tabuľky, strany, PDF, médiá)
+Excel_sablona.xlsx  šablóna na poznámky so vzorcami pre <img> odkazy
+tests/              pytest
 ```
 
 Po spustení GUI si môžete vybrať jednu z týchto možností:
 
 ### [1] Otvoriť tento priečinok
 
-Otvorí priečinok, v ktorom je aplikácia. Do tohto priečinka vložte PDF a CSV/TSV súbory, s ktorými chcete pracovať.
+Otvorí priečinok, v ktorom je aplikácia. Do tohto priečinka vložte PDF a tabuľky (XLSX, CSV, TSV), s ktorými chcete pracovať.
 
 ### [2] Exportovať PDF do JPG
 
@@ -141,14 +144,14 @@ Konvertuje stránky PDF do JPG obrázkov pre ANKI.
 
 Pri prednáške alebo cvičení sa aplikácia opýta na:
 
-- názov predmetu,
-- typ materiálu,
+- skratku predmetu,
+- typ materiálu (cvičenie / prednáška),
 - číslo prednášky alebo cvičenia.
 
 Názvy súborov sa generujú podľa logiky:
 
 ```text
-subject_name_C/P_##_S_##
+predmet_C/P_##_S_##.jpg
 ```
 
 Vysvetlenie:
@@ -156,23 +159,23 @@ Vysvetlenie:
 - `C` = cvičenie,
 - `P` = prednáška,
 - `S` = strana alebo slajd,
-- `##` = číslo vo formáte 01, 02 … 99, 100, 101 … (vždy aspoň 2 cifry – export aj tagy používajú rovnaké pravidlo).
-
-Ak vyberieš viac PDF naraz, aplikácia sa spýta na číslo pre **každé PDF zvlášť** a nepovolí dva rovnaké názvy (obrázky by sa prepísali).
-
-Kvalita exportu: 300 DPI (slajd 16:9 ≈ 4000 px na šírku), JPG kvalita 100 bez chroma subsamplingu (4:4:4) – prakticky bezstratové. Nastavenie je v `core/__init__.py`. Export beží na pozadí s progress barom.
+- `##` = číslo vo formáte 01, 02 … 99, 100, 101 … (vždy aspoň 2 cifry – export aj odkazy používajú rovnaké pravidlo).
 
 Príklady:
 
 ```text
-O-CHEM1_C_01_S_02
-O-CHEM1_P_01_S_02
+O-CHEM1_C_01_S_02.jpg
+O-CHEM1_P_01_S_02.jpg
 ```
 
-Pre dokument, napríklad vypracovanie alebo knihu, sa používa formát podľa názvu PDF:
+Obrázky sa uložia do priečinka pomenovaného podľa nich, napr. `jpg_O-CHEM1_C_01/`.
+
+Ak vyberieš viac PDF naraz, aplikácia sa spýta na číslo pre každé PDF zvlášť a nepovolí dva rovnaké názvy (obrázky by sa prepísali).
+
+Pre dokument, napríklad vypracovanie alebo knihu, sa použije názov PDF:
 
 ```text
-pdf_name_S_##
+pdf_name_S_##.jpg
 ```
 
 Príklad pre PDF `Memorix.pdf`:
@@ -182,9 +185,19 @@ Memorix_S_01.jpg
 Memorix_S_02.jpg
 ```
 
+Kvalita exportu: 300 DPI (slajd 16:9 ≈ 4000 px na šírku), JPG kvalita 100 bez chroma subsamplingu (4:4:4) – prakticky bezstratové. Nastavenie je v `core/__init__.py`. Export beží na pozadí s progress barom.
+
 ### [3] Pridať obrázkové tagy (CSV/TSV/XLSX)
 
-Spracuje CSV alebo TSV súbor a pridá HTML tagy pre obrázky do vybraných stĺpcov. Vstup môže byť **XLSX priamo z Excelu** (appka sa spýta na list, `3 ANKI ALL-LECTURES` ponúkne ako prvý), CSV (čiarka aj stredník zo slovenského Excelu) alebo TSV – oddeľovač sa zistí automaticky. Pri XLSX sa čítajú hodnoty z posledného uloženia, takže súbor pred spracovaním ulož (Ctrl+S). **Výstup je vždy TSV** (napr. `deck_images.tsv`) s Anki hlavičkami:
+Prepíše čísla strán vo vybraných stĺpcoch na HTML odkazy na obrázky.
+
+Vstup:
+
+- **XLSX priamo z Excelu** – aplikácia sa spýta na list (`3 ANKI ALL-LECTURES` ponúkne ako prvý). Čítajú sa hodnoty z posledného uloženia, takže súbor pred spracovaním ulož (Ctrl+S).
+- **CSV** – čiarka aj stredník (slovenský Excel), oddeľovač sa zistí automaticky.
+- **TSV** – aj výstup tejto aplikácie (dá sa reťaziť: obrázky → tagy → Back).
+
+Výstup je vždy TSV (napr. `deck_images.tsv`) s Anki hlavičkami. Pôvodný súbor sa nemení.
 
 ```text
 #separator:Tab
@@ -193,9 +206,9 @@ Spracuje CSV alebo TSV súbor a pridá HTML tagy pre obrázky do vybraných stĺ
 #tags column:5
 ```
 
-Vďaka tomu Anki pri importe samo vie oddeľovač, zapne HTML a priradí tagy. Výstup appky sa dá použiť znova ako vstup (napr. najprv obrázky, potom tagy, potom Back).
+Vďaka tomu Anki pri importe samo nastaví oddeľovač, zapne HTML a priradí tagy.
 
-Podporované zápisy v bunke: `12`, `1,2,10`, `1;2`, `5-7`, `1, 5-7`. Bunky s iným textom sa nemenia a aplikácia ich vypíše ako upozornenie.
+Podporované zápisy v bunke: `12`, `1,2,10`, `1;2`, `5-7`, `1, 5-7`. Bunky s iným textom (napr. „pozri skriptá“) sa nemenia a aplikácia ich vypíše ako upozornenie. Bunky, ktoré už obsahujú `<img>`, ostanú tak.
 
 Podporované stĺpce:
 
@@ -204,13 +217,19 @@ Podporované stĺpce:
 - Extra,
 - Missed Questions.
 
-Príklad výsledného HTML odkazu:
+Príklad výsledného HTML odkazu (viac obrázkov sa spojí cez `<br>`):
 
 ```html
-<img src="nazov_obrazka.jpg">
+<img src="O-CHEM1_P_01_S_02.jpg">
 ```
 
-### [4] Kopírovať alebo presunúť JPG súbory
+Veľkosť obrázka na karte určuje CSS notetypu. Ak sú obrázky príliš veľké, pridaj do Styling:
+
+```css
+img { max-width: 100%; height: auto; }
+```
+
+### [4] Kopírovať alebo presunúť obrázky
 
 Skopíruje alebo presunie obrázky (JPG, PNG, WEBP, GIF) do cieľového priečinka.
 
@@ -220,21 +239,21 @@ Pred akciou aplikácia porovná súbory s cieľom:
 - **rovnaké** sa preskočia,
 - **rovnaké meno, iný obsah** – aplikácia ich vypíše a spýta sa, či ich prepísať.
 
-Pre ANKI vyberte priečinok:
+Pre ANKI vyberte priečinok `collection.media` vášho profilu, typicky:
 
 ```text
-collection.media
+C:\Users\<meno>\AppData\Roaming\Anki2\<profil>\collection.media
 ```
 
 ### [5] Extrahovať TXT z PDF
 
-Extrahuje text z vybraného PDF súboru do TXT súboru.
+Extrahuje text z vybraného PDF súboru do TXT súboru (s oddeľovačmi strán alebo ako vyčistený text).
 
 Toto je užitočné, keď chcete z prednášky rýchlo získať text a ďalej ho upravovať.
 
 ### [6] Vymazať strany z PDF
 
-Vytvorí nový PDF súbor bez vybraných strán.
+Vytvorí nový PDF súbor (`*_modified.pdf`) bez vybraných strán. Originál ostane nezmenený.
 
 Príklad vstupu:
 
@@ -246,25 +265,44 @@ Tým sa odstránia strany 1, 3, 5, 6 a 7.
 
 ### [7] Premenovať PDF súbory
 
-Premenuje vybrané PDF súbory v priečinku aplikácie.
+Premenuje vybrané PDF súbory v priečinku aplikácie. Existujúci súbor sa neprepíše.
 
 ### [8] Pridať tag (CSV/TSV/XLSX)
 
-Pridá zadaný tag do stĺpca Tags. Tag sa pridá iba tam, kde je bunka prázdna.
+Pridá zadaný tag do stĺpca Tags. Tag sa pridá iba tam, kde je bunka prázdna. Hierarchické tagy fungujú, napr. `Pharmazie::PharmII::V01`.
 
 ### [9] Opraviť stĺpec Back
 
-Opraví formátovanie poľa Back pre ANKI HTML import.
+Opraví formátovanie poľa Back pre ANKI HTML import – časti `O:`, `U:`, `I:`, `F:` (odstup, úpon, inervácia, funkcia) dá na samostatné riadky a zvýrazní tučne. Dá sa spustiť aj opakovane.
 
-Toto je užitočné najmä vtedy, keď má byť viacero častí odpovede na samostatných riadkoch.
+<p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 ---
 
-## Excel
+<a id="excel"></a>
 
-V Exceli môžete používať hypertextové odkazy na rýchly pohyb medzi listami a PDF súbormi.
+## Excel šablóna
 
-### [1] Odkaz na iný list v Exceli
+`Excel_sablona.xlsx` má tri listy:
+
+| List | Obsah |
+|---|---|
+| `1 PREHĽAD` | Zoznam prednášok s odkazmi na listy a PDF, stĺpec **img base** (začiatok mena obrázkov, napr. `PharmII_P_01`), legenda |
+| `V01` | Karty jednej prednášky: Front, Back, Personal Notes, Source, Tags. Do Personal Notes / Source sa píšu čísla slajdov |
+| `3 ANKI ALL-LECTURES` | Počíta sa sám: preberie karty z `V01` a čísla slajdov prepíše vzorcom na `<img src="…">` |
+
+Pravidlá pre vzorce v šablóne:
+
+- viac slajdov v bunke oddeľ čiarkou, napr. `15,16` (najviac 4),
+- rozsah `5-7` vzorec nevie – použi `5,6,7` alebo nechaj spracovať aplikáciu,
+- text v bunke ostane textom,
+- bunka nesmie začínať `=` (Excel z nej spraví vzorec) – ak treba, napíš pred ňu apostrof: `'= text`.
+
+Tento list potom stačí uložiť a načítať v aplikácii (funkcia [3]), alebo uložiť ako CSV UTF-8 a importovať do ANKI.
+
+### Odkazy v Exceli
+
+Odkaz na iný list:
 
 ```excel
 =HYPERLINK("#'nazov_listu'!A1", "text_na_zobrazenie")
@@ -273,83 +311,53 @@ V Exceli môžete používať hypertextové odkazy na rýchly pohyb medzi listam
 Príklad:
 
 ```excel
-=HYPERLINK("#'P01'!A1", "Klikni pre Prednáška 01")
+=HYPERLINK("#'V01'!A1", "Link to V01")
 ```
 
-Na presun medzi listami môžete používať:
+Na presun medzi listami môžete používať `Ctrl + PgUp` a `Ctrl + PgDn`.
 
-```text
-Ctrl + PgUp
-Ctrl + PgDn
-```
-
-### [2] Odkaz na PDF prednášku
+Odkaz na PDF prednášku (relatívna cesta funguje, keď je PDF v rovnakom priečinku ako xlsx):
 
 ```excel
-=HYPERLINK("cesta_k_pdf", "text_na_zobrazenie")
-```
-
-Príklad:
-
-```excel
+=HYPERLINK("V PharmII01.pdf", "Open PDF of Vorlesung01")
 =HYPERLINK("C:\Users\User1\Desktop\ANKI\Lecture01.pdf", "Otvoriť Lecture01")
 ```
 
-<p align="left">(<a href="#roadmap">podrobnejšie kroky v časti Postup</a>)</p>
-
 <p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
-Zo šablóny treba exportovať iba list:
-
-```text
-3 ANKI ALL-LECTURES
-```
-
-Exportujte ho ako CSV v kódovaní UTF-8. Všetky listy s ANKI poznámkami sa pred exportom skopírujú do tohto jedného výstupného listu.
-
 <!-- ROADMAP -->
-## Postup
-
 <a id="roadmap"></a>
+
+## Postup
 
 1. **Pripravte vstupné súbory**
 
-   - Vložte PDF a CSV/TSV do rovnakého priečinka ako `anki_gui.py`.
-   - Exportujte CSV z Excelu v kódovaní UTF-8.
+   - Vložte PDF a Excel (XLSX) do priečinka aplikácie.
    - Do stĺpcov, ktoré majú obsahovať obrázky, napíšte čísla strán alebo slajdov.
+   - Excel uložte (Ctrl+S).
 
-2. **Spustite GUI**
+2. **Spustite aplikáciu**
 
-   - Spustite `anki_gui.py` pomocou Pythonu.
-   - Vyberte požadovanú funkciu v hlavnom okne.
+   - Dvojklik na `START.bat`.
 
 3. **Spracujte súbory**
 
-   Podľa výberu aplikácia:
-
-   - otvorí pracovný priečinok,
-   - exportuje PDF stránky do JPG obrázkov,
-   - pridá HTML tagy (výstup TSV),
-   - presunie JPG súbory do ANKI media priečinka,
-   - extrahuje TXT z PDF,
-   - vymaže vybrané strany z PDF,
-   - premenuje PDF súbory,
-   - pridá tagy (výstup TSV),
-   - opraví formátovanie stĺpca Back.
+   - **[2]** PDF → JPG (zapamätajte si predmet, typ a číslo – musia sedieť s odkazmi).
+   - **[3]** Excel → TSV s `<img>` odkazmi (pri šablóne s list `3 ANKI ALL-LECTURES` sú odkazy už hotové, aplikácia ich len prenesie do TSV).
+   - **[4]** Obrázky → `collection.media`.
 
 4. **Importujte TSV do ANKI**
 
-   - Otvorte ANKI.
    - File → Import → vyberte `.tsv` súbor (oddeľovač, HTML a tagy sa nastavia samé).
-   - Vyberte notetype (AnKing) a balíček, skontrolujte mapovanie stĺpcov.
+   - Vyberte notetype (AnKing) a balíček, pri prvom importe skontrolujte mapovanie stĺpcov.
    - Importujte karty.
 
 <p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- ADDITIONAL NOTES -->
-## Ďalšie poznámky
-
 <a id="additional-notes"></a>
+
+## Ďalšie poznámky
 
 ### Príprava tabuľky pre HTML odkazy
 
@@ -361,42 +369,38 @@ Príklad:
 1,2,10,99
 ```
 
-Aplikácia z týchto čísel vytvorí HTML odkazy na obrázky.
-
-Príklad:
+Z týchto čísel vzniknú HTML odkazy na obrázky:
 
 ```html
-<img src="O-CHEM1_P_01_S_01.jpg">
-<img src="O-CHEM1_P_01_S_02.jpg">
+<img src="O-CHEM1_P_01_S_01.jpg"><br><img src="O-CHEM1_P_01_S_02.jpg"><br>…
 ```
 
-### Odporúčaná logika práce
+### Čo sa nemení
 
-1. PDF prednášku vložiť do priečinka aplikácie.
-2. Exportovať PDF do JPG.
-3. V Exceli pripraviť čísla strán ku kartám.
-4. Exportovať Excel list do CSV UTF-8.
-5. Spustiť funkciu na pridanie obrázkových tagov.
-6. JPG súbory presunúť do `collection.media`.
-7. Výsledné TSV importovať do ANKI.
+Aplikácia nikdy neprepisuje vstupné súbory. Výstupy dostanú príponu `_images`, `_tagged`, `_fixed` alebo `_modified`.
 
 ### Zdroje inšpirácie
 
 Kombinácia ANKING notetype, CSV/TSV importu a HTML odkazov na obrázky:
 
 [1] **The AnKing Note Types and Add-on**  
-https://www.youtube.com/watch?v=NYUhNMyAZNs
-https://github.com/AnKing-VIP/AnKing-Note-Types 
+https://www.youtube.com/watch?v=NYUhNMyAZNs  
+https://github.com/AnKing-VIP/AnKing-Note-Types
 
 [2] **Importing Flashcards Into Anki**  
 https://www.youtube.com/watch?v=s0QQJp8HPd0
 
 [3] **Stop copying and pasting images into your flashcards**  
-https://www.youtube.com/watch?v=s0QQJp8HPd0
+https://www.youtube.com/watch?v=s0QQJp8HPd0 <!-- TODO: rovnaký link ako [2], doplniť správny -->
+
+[4] **Anki manuál – Importing text files (file headers)**  
+https://docs.ankiweb.net/importing/text-files.html
 
 <p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
 
 <!-- CONTACT -->
+<a id="contact"></a>
+
 ## Kontakt
 
 Pre otázky otvorte GitHub Issue v tomto repozitári.
