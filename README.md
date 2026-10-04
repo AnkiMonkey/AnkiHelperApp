@@ -28,7 +28,7 @@
 <!-- ABOUT THE PROJECT -->
 ## O projekte
 
-Tento nástroj zjednodušuje prípravu prednášok, cvičení a knižných materiálov do ANKI. Pomáha spracovať PDF a CSV súbory tak, aby sa dali rýchlejšie použiť pri tvorbe ANKI kariet.
+Tento nástroj zjednodušuje prípravu prednášok, cvičení a knižných materiálov do ANKI. Pomáha spracovať PDF a tabuľky (CSV/TSV) tak, aby sa dali rýchlejšie použiť pri tvorbe ANKI kariet.
 
 Základná pipeline:
 
@@ -36,12 +36,12 @@ Aplikácia obsahuje funkcie na zjednodušenie týchto úloh:
 
 - [1] Otvorenie priečinka s aplikáciou.
 - [2] Export PDF strán do JPG obrázkov.
-- [3] Pridanie HTML tagov pre obrázky do CSV.
+- [3] Pridanie HTML tagov pre obrázky (výstup TSV pre Anki).
 - [4] Kopírovanie alebo presun JPG súborov.
 - [5] Extrakcia TXT textu z PDF.
 - [6] Vymazanie vybraných strán z PDF.
 - [7] Premenovanie PDF súborov.
-- [8] Pridanie tagu do CSV.
+- [8] Pridanie tagu (výstup TSV).
 - [9] Oprava stĺpca Back pre ANKI import.
 
 ### Riešenie
@@ -50,14 +50,14 @@ Celý workflow je postavený na jednoduchej myšlienke:
 
 - prednášky a cvičenia sú uložené ako PDF,
 - PDF sa rozdelí na obrázky,
-- v Exceli alebo CSV sa určia čísla strán,
+- v Exceli sa určia čísla strán,
 - aplikácia vytvorí HTML odkazy na obrázky,
-- CSV sa importuje do ANKI.
+- výsledné TSV sa importuje do ANKI bez mapovania stĺpcov.
 
 Používa sa:
 
 - ANKING notetype,
-- CSV import do ANKI,
+- TSV import do ANKI s file headers (`#separator`, `#html`, `#columns`, `#tags column`),
 - HTML odkazy na obrázky uložené v ANKI media priečinku,
 - Excel ako hlavný manažér poznámok.
 
@@ -90,7 +90,7 @@ Potrebujete:
 - ANKI,
 - ANKING notetype,
 - PDF súbory s prednáškami alebo cvičeniami,
-- CSV súbor pripravený na import do ANKI.
+- CSV export z Excelu (čiarka aj stredník) alebo TSV.
 
 Excelová šablóna je pripravená pre ANKING notetype vid: https://github.com/AnKing-VIP/AnKing-Note-Types 
 
@@ -107,19 +107,33 @@ Do príslušných stĺpcov sa zapisujú čísla strán alebo slajdov. Aplikácia
 <!-- USAGE EXAMPLES -->
 ## Použitie
 
-### Python aplikácia
+### Spustenie
 
-Spustite GUI aplikáciu:
+**Dvojklik na `START.bat`** – pri prvom spustení doinštaluje knižnice a otvorí appku.
+
+Ručne:
 
 ```bash
+pip install -r requirements.txt
 python anki_gui.py
+```
+
+Konzolová verzia: `python anki_app.py`. Testy: `pip install -r requirements-dev.txt` a `python -m pytest`.
+
+Štruktúra:
+
+```text
+anki_gui.py      GUI (tkinter)
+anki_app.py      konzolová verzia
+core/            spoločná logika (tabuľky, strany, PDF, médiá)
+tests/           pytest
 ```
 
 Po spustení GUI si môžete vybrať jednu z týchto možností:
 
 ### [1] Otvoriť tento priečinok
 
-Otvorí priečinok, v ktorom je aplikácia. Do tohto priečinka vložte PDF a CSV súbory, s ktorými chcete pracovať.
+Otvorí priečinok, v ktorom je aplikácia. Do tohto priečinka vložte PDF a CSV/TSV súbory, s ktorými chcete pracovať.
 
 ### [2] Exportovať PDF do JPG
 
@@ -142,7 +156,11 @@ Vysvetlenie:
 - `C` = cvičenie,
 - `P` = prednáška,
 - `S` = strana alebo slajd,
-- `##` = číslo vo formáte 01, 02, 10. (resp. ak ma dokument nad 100 strán, číslo vo formáte 001, 002, 099...)
+- `##` = číslo vo formáte 01, 02 … 99, 100, 101 … (vždy aspoň 2 cifry – export aj tagy používajú rovnaké pravidlo).
+
+Ak vyberieš viac PDF naraz, aplikácia sa spýta na číslo pre **každé PDF zvlášť** a nepovolí dva rovnaké názvy (obrázky by sa prepísali).
+
+Kvalita exportu: 300 DPI (slajd 16:9 ≈ 4000 px na šírku), JPG kvalita 100 bez chroma subsamplingu (4:4:4) – prakticky bezstratové. Nastavenie je v `core/__init__.py`. Export beží na pozadí s progress barom.
 
 Príklady:
 
@@ -164,9 +182,20 @@ Memorix_S_01.jpg
 Memorix_S_02.jpg
 ```
 
-### [3] Pridať obrázkové tagy do CSV
+### [3] Pridať obrázkové tagy (CSV/TSV/XLSX)
 
-Spracuje CSV súbor a pridá HTML tagy pre obrázky do vybraných stĺpcov.
+Spracuje CSV alebo TSV súbor a pridá HTML tagy pre obrázky do vybraných stĺpcov. Vstup môže byť **XLSX priamo z Excelu** (appka sa spýta na list, `3 ANKI ALL-LECTURES` ponúkne ako prvý), CSV (čiarka aj stredník zo slovenského Excelu) alebo TSV – oddeľovač sa zistí automaticky. Pri XLSX sa čítajú hodnoty z posledného uloženia, takže súbor pred spracovaním ulož (Ctrl+S). **Výstup je vždy TSV** (napr. `deck_images.tsv`) s Anki hlavičkami:
+
+```text
+#separator:Tab
+#html:true
+#columns:Front	Back	Personal Notes	Source	Tags
+#tags column:5
+```
+
+Vďaka tomu Anki pri importe samo vie oddeľovač, zapne HTML a priradí tagy. Výstup appky sa dá použiť znova ako vstup (napr. najprv obrázky, potom tagy, potom Back).
+
+Podporované zápisy v bunke: `12`, `1,2,10`, `1;2`, `5-7`, `1, 5-7`. Bunky s iným textom sa nemenia a aplikácia ich vypíše ako upozornenie.
 
 Podporované stĺpce:
 
@@ -178,12 +207,18 @@ Podporované stĺpce:
 Príklad výsledného HTML odkazu:
 
 ```html
-<img src="nazov_obrazka.jpg" width="450">
+<img src="nazov_obrazka.jpg">
 ```
 
 ### [4] Kopírovať alebo presunúť JPG súbory
 
-Skopíruje alebo presunie exportované JPG obrázky do cieľového priečinka.
+Skopíruje alebo presunie obrázky (JPG, PNG, WEBP, GIF) do cieľového priečinka.
+
+Pred akciou aplikácia porovná súbory s cieľom:
+
+- **nové** sa skopírujú,
+- **rovnaké** sa preskočia,
+- **rovnaké meno, iný obsah** – aplikácia ich vypíše a spýta sa, či ich prepísať.
 
 Pre ANKI vyberte priečinok:
 
@@ -213,7 +248,7 @@ Tým sa odstránia strany 1, 3, 5, 6 a 7.
 
 Premenuje vybrané PDF súbory v priečinku aplikácie.
 
-### [8] Pridať tag do CSV
+### [8] Pridať tag (CSV/TSV/XLSX)
 
 Pridá zadaný tag do stĺpca Tags. Tag sa pridá iba tam, kde je bunka prázdna.
 
@@ -279,9 +314,9 @@ Exportujte ho ako CSV v kódovaní UTF-8. Všetky listy s ANKI poznámkami sa pr
 
 1. **Pripravte vstupné súbory**
 
-   - Vložte PDF a CSV do rovnakého priečinka ako `anki_gui.py`.
+   - Vložte PDF a CSV/TSV do rovnakého priečinka ako `anki_gui.py`.
    - Exportujte CSV z Excelu v kódovaní UTF-8.
-   - Do CSV stĺpcov, ktoré majú obsahovať obrázky, napíšte čísla strán alebo slajdov.
+   - Do stĺpcov, ktoré majú obsahovať obrázky, napíšte čísla strán alebo slajdov.
 
 2. **Spustite GUI**
 
@@ -294,20 +329,19 @@ Exportujte ho ako CSV v kódovaní UTF-8. Všetky listy s ANKI poznámkami sa pr
 
    - otvorí pracovný priečinok,
    - exportuje PDF stránky do JPG obrázkov,
-   - pridá HTML tagy do CSV,
+   - pridá HTML tagy (výstup TSV),
    - presunie JPG súbory do ANKI media priečinka,
    - extrahuje TXT z PDF,
    - vymaže vybrané strany z PDF,
    - premenuje PDF súbory,
-   - pridá tagy do CSV,
+   - pridá tagy (výstup TSV),
    - opraví formátovanie stĺpca Back.
 
-4. **Importujte CSV do ANKI**
+4. **Importujte TSV do ANKI**
 
    - Otvorte ANKI.
-   - Vyberte import CSV súboru.
-   - Skontrolujte mapovanie stĺpcov.
-   - Zapnite HTML import, ak používate obrázkové tagy.
+   - File → Import → vyberte `.tsv` súbor (oddeľovač, HTML a tagy sa nastavia samé).
+   - Vyberte notetype (AnKing) a balíček, skontrolujte mapovanie stĺpcov.
    - Importujte karty.
 
 <p align="left">(<a href="#readme-top">späť na začiatok</a>)</p>
@@ -317,7 +351,7 @@ Exportujte ho ako CSV v kódovaní UTF-8. Všetky listy s ANKI poznámkami sa pr
 
 <a id="additional-notes"></a>
 
-### Príprava CSV pre HTML odkazy
+### Príprava tabuľky pre HTML odkazy
 
 V Exceli sa do stĺpcov ako Personal Notes, Source alebo Missed Questions zapisujú čísla strán.
 
@@ -332,8 +366,8 @@ Aplikácia z týchto čísel vytvorí HTML odkazy na obrázky.
 Príklad:
 
 ```html
-<img src="O-CHEM1_P_01_S_01.jpg" width="450">
-<img src="O-CHEM1_P_01_S_02.jpg" width="450">
+<img src="O-CHEM1_P_01_S_01.jpg">
+<img src="O-CHEM1_P_01_S_02.jpg">
 ```
 
 ### Odporúčaná logika práce
@@ -344,11 +378,11 @@ Príklad:
 4. Exportovať Excel list do CSV UTF-8.
 5. Spustiť funkciu na pridanie obrázkových tagov.
 6. JPG súbory presunúť do `collection.media`.
-7. CSV importovať do ANKI.
+7. Výsledné TSV importovať do ANKI.
 
 ### Zdroje inšpirácie
 
-Kombinácia ANKING notetype, CSV importu a HTML odkazov na obrázky:
+Kombinácia ANKING notetype, CSV/TSV importu a HTML odkazov na obrázky:
 
 [1] **The AnKing Note Types and Add-on**  
 https://www.youtube.com/watch?v=NYUhNMyAZNs

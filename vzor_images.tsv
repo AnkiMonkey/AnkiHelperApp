@@ -1,0 +1,6 @@
+#separator:Tab
+#html:true
+#columns:Front	Back	Personal Notes	Source	Tags
+#tags column:5
+hl mesto CZ	Praha	"<img src=""anat_P_01_S_11.jpg"">"	"<img src=""anat_P_01_S_12.jpg"">"	Pharmazie::PharmII::V01
+hl mesto SVK	BA	"<img src=""anat_P_01_S_10.jpg"">"	"<img src=""anat_P_01_S_12.jpg"">"	Pharmazie::PharmII::V01

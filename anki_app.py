@@ -1,19 +1,12 @@
-import csv
-import os
-import re
-import shutil
+"""Konzolová verzia AnkiHelperApp – rovnaká logika ako GUI (balík core/)."""
+
 import sys
 from pathlib import Path
 
-
-APP_NAME = "Anki Helper"
-IMAGE_COLUMNS = ("Source", "Personal Notes", "Extra", "Missed Questions")
-
-
-def app_folder():
-    if getattr(sys, "frozen", False):
-        return Path(sys.executable).resolve().parent
-    return Path(__file__).resolve().parent
+from core import DOCUMENT_DPI, IMAGE_COLUMNS, LECTURE_DPI
+from core import fields, media, naming, pdf, tables
+from core.pages import parse_pages
+from core.system import app_folder, list_files, list_subfolders, list_tables, open_path
 
 
 def configure_console_encoding():
@@ -35,9 +28,11 @@ def ask(prompt, required=True):
         print("Zadaj hodnotu.")
 
 
-def ask_int(prompt, minimum=None, maximum=None):
+def ask_int(prompt, minimum=None, maximum=None, default=None):
     while True:
         value = input(prompt).strip()
+        if not value and default is not None:
+            return default
         if not value.isdigit():
             print("Zadaj číslo.")
             continue
@@ -52,8 +47,8 @@ def ask_int(prompt, minimum=None, maximum=None):
         return number
 
 
-def list_files(folder, pattern):
-    return sorted(folder.glob(pattern), key=lambda path: path.name.lower())
+def ask_yes(prompt):
+    return ask(f"{prompt} a/N: ", required=False).lower() in ("a", "y")
 
 
 def choose_one(paths, title):
@@ -65,7 +60,7 @@ def choose_one(paths, title):
     for index, path in enumerate(paths, start=1):
         print(f"{index}. {path.name}")
 
-    choice = ask_int("Vyber číslo súboru: ", 1, len(paths))
+    choice = ask_int("Vyber číslo: ", 1, len(paths))
     return paths[choice - 1]
 
 
@@ -78,15 +73,13 @@ def choose_many(paths, title):
     for index, path in enumerate(paths, start=1):
         print(f"{index}. {path.name}")
 
-    raw = ask("Vyber čísla oddelené čiarkou: ")
-    selected = []
-    for part in raw.split(","):
-        part = part.strip()
-        if part.isdigit():
-            index = int(part)
-            if 1 <= index <= len(paths):
-                selected.append(paths[index - 1])
-    return selected
+    raw = ask("Vyber čísla (napr. 1,3 alebo 2-5): ")
+    try:
+        indexes = sorted(parse_pages(raw, len(paths)))
+    except ValueError as error:
+        print(error)
+        return []
+    return [paths[index] for index in indexes]
 
 
 def choose_from_menu(title, options):
@@ -94,45 +87,6 @@ def choose_from_menu(title, options):
     for index, label in enumerate(options, start=1):
         print(f"{index}. {label}")
     return ask_int("Vyber možnosť: ", 1, len(options)) - 1
-
-
-def read_csv_rows(csv_path):
-    with csv_path.open("r", encoding="utf-8-sig", newline="") as file:
-        reader = csv.DictReader(file)
-        fieldnames = reader.fieldnames or []
-        rows = list(reader)
-    return fieldnames, rows
-
-
-def write_csv_rows(csv_path, fieldnames, rows):
-    with csv_path.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
-
-
-def number_from_cell(value):
-    if value is None:
-        return None
-
-    text = str(value).strip()
-    if not text:
-        return None
-
-    try:
-        return int(text)
-    except ValueError:
-        try:
-            number = float(text)
-        except ValueError:
-            return None
-        if number.is_integer():
-            return int(number)
-    return None
-
-
-def image_tag(filename, width=450):
-    return f'<img src="{filename}" data-editor-shrink="false" width="{width}">'
 
 
 def ask_columns(fieldnames):
@@ -149,148 +103,112 @@ def ask_columns(fieldnames):
     return [available[choice]]
 
 
-def add_images_to_csv(folder):
-    csv_path = choose_one(list_files(folder, "*.csv"), "CSV súbory")
-    if not csv_path:
-        return
-
-    mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
-    fieldnames, rows = read_csv_rows(csv_path)
-    columns = ask_columns(fieldnames)
-    if not columns:
-        return
-
-    changed = 0
-
-    if mode == 0:
-        subject = ask("Skratka predmetu: ")
-        content_type = choose_from_menu("Typ materiálu", ["Cvičenie", "Prednáška"])
-        prefix = "C" if content_type == 0 else "P"
-        number = ask_int(f"Číslo {prefix}: ", 0)
-        base_name = f"{subject}_{prefix}_{number:02d}"
-    else:
-        document_name = ask("Názov dokumentu/PDF bez .pdf: ")
-        base_name = document_name
-
-    for row in rows:
-        for column in columns:
-            page = number_from_cell(row.get(column))
-            if page is None:
-                continue
-            filename = f"{base_name}_S_{page:02d}.jpg"
-            row[column] = image_tag(filename)
-            changed += 1
-
-    output_path = csv_path.with_name(f"{csv_path.stem}_images.csv")
-    write_csv_rows(output_path, fieldnames, rows)
-    print(f"\nUložené: {output_path.name}")
-    print(f"Upravených buniek: {changed}")
+def read_chosen_table(path):
+    sheet = None
+    if tables.is_xlsx(path):
+        sheets = tables.xlsx_sheets(path)
+        sheet = sheets[choose_from_menu(f"Ktorý list z {path.name}?", sheets)] if len(sheets) > 1 else sheets[0]
+    return tables.read_any(path, sheet)
 
 
-def add_tags_to_csv(folder):
-    selected = choose_many(list_files(folder, "*.csv"), "CSV súbory")
-    if not selected:
-        print("Neboli vybrané platné CSV súbory.")
-        return
-
-    tag = ask("Tag, ktorý sa pridá tam, kde je Tags prázdne: ")
-    for csv_path in selected:
-        fieldnames, rows = read_csv_rows(csv_path)
-        if "Tags" not in fieldnames:
-            print(f"{csv_path.name}: chýba stĺpec Tags")
-            continue
-
-        changed = 0
-        for row in rows:
-            if not str(row.get("Tags", "")).strip():
-                row["Tags"] = tag
-                changed += 1
-
-        output_path = csv_path.with_name(f"{csv_path.stem}_tagged.csv")
-        write_csv_rows(output_path, fieldnames, rows)
-        print(f"{csv_path.name}: uložené {output_path.name}, upravených riadkov {changed}")
+def ask_lecture_header():
+    subject = naming.validate_base(ask("Skratka predmetu: "))
+    labels = list(naming.LECTURE_PREFIXES)
+    prefix = naming.LECTURE_PREFIXES[labels[choose_from_menu("Typ materiálu", labels)]]
+    return subject, prefix
 
 
-def fix_back_field(text):
-    if text is None:
-        return ""
-
-    text = str(text).strip()
-    text = re.sub(r"\s+(U:)", r"<br>\1", text)
-    text = re.sub(r"\s+(F:)", r"<br>\1", text)
-    text = re.sub(r"\s+(I:)", r"<br>\1", text)
-    text = re.sub(r"(?<!<b>)([UFIO]:)(?!</b>)", r"<b>\1</b>", text)
-    return text
+# ---------------------------------------------------------------- akcie
 
 
-def fix_back_column(folder):
-    csv_path = choose_one(list_files(folder, "*.csv"), "CSV súbory")
-    if not csv_path:
-        return
-
-    fieldnames, rows = read_csv_rows(csv_path)
-    if "Back" not in fieldnames:
-        print("Toto CSV nemá stĺpec Back.")
-        print("Nájdené stĺpce:", ", ".join(fieldnames))
-        return
-
-    changed = 0
-    for row in rows:
-        old_value = row.get("Back", "")
-        new_value = fix_back_field(old_value)
-        if old_value != new_value:
-            changed += 1
-        row["Back"] = new_value
-
-    output_path = csv_path.with_name(f"{csv_path.stem}_fixed.csv")
-    write_csv_rows(output_path, fieldnames, rows)
-    print(f"\nUložené: {output_path.name}")
-    print(f"Upravených riadkov: {changed}")
-    print("Pri importe do Anki zapni HTML vo fieldoch.")
+def open_folder(folder):
+    open_path(folder)
 
 
 def pdf_to_jpg(folder):
     pdfs = choose_many(list_files(folder, "*.pdf"), "PDF súbory")
     if not pdfs:
-        print("Neboli vybrané platné PDF súbory.")
+        return
+
+    mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
+    jobs = []
+    if mode == 0:
+        subject, prefix = ask_lecture_header()
+        suggestion = None
+        for pdf_path in pdfs:
+            hint = f" [{suggestion}]" if suggestion is not None else ""
+            label = f"Číslo {prefix} pre {pdf_path.name}{hint}: " if len(pdfs) > 1 else f"Číslo {prefix}: "
+            number = ask_int(label, 0, default=suggestion)
+            jobs.append((pdf_path, naming.lecture_base(subject, prefix, number), LECTURE_DPI))
+            suggestion = number + 1
+    else:
+        jobs = [(pdf_path, naming.validate_base(pdf_path.stem), DOCUMENT_DPI) for pdf_path in pdfs]
+
+    duplicates = naming.find_duplicate_bases(base for _, base, _ in jobs)
+    if duplicates:
+        print("Rovnaký názov pre viac PDF – obrázky by sa prepísali:", ", ".join(duplicates))
+        return
+
+    for pdf_path, base, dpi in jobs:
+        print(f"\nKonvertujem {pdf_path.name} -> {base}_S_##.jpg")
+
+        def progress(done, total):
+            print(f"\r  strana {done}/{total}", end="", flush=True)
+
+        files = pdf.export_jpg(pdf_path, folder / f"jpg_{base}", base, dpi, progress=progress)
+        print(f"\n  Uložené: {len(files)} JPG")
+
+
+def add_images_to_table(folder):
+    table_path = choose_one(list_tables(folder), "CSV/TSV/XLSX súbory")
+    if not table_path:
+        return
+
+    fieldnames, rows = read_chosen_table(table_path)
+    columns = ask_columns(fieldnames)
+    if not columns:
         return
 
     mode = choose_from_menu("Typ pomenovania obrázkov", ["Cvičenie / Prednáška", "Dokument (vypracovanie / kniha)"])
     if mode == 0:
-        subject = ask("Skratka predmetu: ")
-        content_type = choose_from_menu("Typ materiálu", ["Cvičenie", "Prednáška"])
-        prefix = "C" if content_type == 0 else "P"
+        subject, prefix = ask_lecture_header()
         number = ask_int(f"Číslo {prefix}: ", 0)
-        base_for_pdf = lambda pdf: f"{subject}_{prefix}_{number:02d}"
-        dpi = None
+        base = naming.lecture_base(subject, prefix, number)
     else:
-        base_for_pdf = lambda pdf: pdf.stem
-        dpi = 300
+        base = naming.validate_base(ask("Názov dokumentu/PDF bez .pdf: "))
 
-    try:
-        import fitz
-        from PIL import Image
-    except ImportError as error:
-        print(f"Chýba knižnica: {error}")
+    changed, skipped = fields.add_images_to_rows(rows, columns, base)
+    output = tables.output_path(table_path, "images")
+    tables.write_anki_tsv(output, fieldnames, rows)
+    print(f"\nUložené: {output.name}")
+    print(f"Upravených buniek: {changed}")
+    if skipped:
+        print(f"⚠ Nečitateľné bunky (ostali bez zmeny): {len(skipped)}")
+        for row, column, value in skipped[:20]:
+            print(f"  riadok {row}, {column}: {value[:50]}")
+
+
+def move_images_to_folder(folder):
+    source = choose_one(list_subfolders(folder), "Zdrojové priečinky")
+    if not source:
         return
 
-    for pdf_path in pdfs:
-        output_folder = folder / f"jpg_from_{pdf_path.stem}"
-        output_folder.mkdir(exist_ok=True)
-        print(f"\nKonvertujem {pdf_path.name}...")
+    files = media.image_files(source)
+    if not files:
+        print("V zdrojovom priečinku nie sú žiadne obrázky.")
+        return
 
-        document = fitz.open(pdf_path)
-        try:
-            for page_index in range(len(document)):
-                page = document.load_page(page_index)
-                pix = page.get_pixmap(dpi=dpi) if dpi else page.get_pixmap()
-                filename = f"{base_for_pdf(pdf_path)}_S_{page_index + 1:02d}.jpg"
-                output_path = output_folder / filename
-                image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                image.save(output_path, quality=100)
-                print(f"Uložené: {output_path.name}")
-        finally:
-            document.close()
+    destination = Path(ask("Cesta k cieľovému priečinku (napr. collection.media): ").strip('"')).expanduser()
+    move = choose_from_menu("Akcia", ["Kopírovať súbory", "Presunúť súbory"]) == 1
+
+    plan = media.plan_transfer(files, destination)
+    print("\n" + media.describe_plan(plan))
+    overwrite = True
+    if plan.changed:
+        overwrite = ask_yes("\nPrepísať súbory s iným obsahom?")
+
+    done = media.execute_transfer(plan, move=move, overwrite_changed=overwrite)
+    print(f"\nSpracovaných: {done}")
 
 
 def extract_text_from_pdf(folder):
@@ -299,62 +217,9 @@ def extract_text_from_pdf(folder):
         return
 
     mode = choose_from_menu("Typ textu", ["Prednáška s oddeľovačmi strán", "Dokument - vyčistený text"])
-
-    try:
-        import fitz
-    except ImportError as error:
-        print(f"Chýba knižnica: {error}")
-        return
-
-    output_path = pdf_path.with_suffix(".txt")
-    document = fitz.open(pdf_path)
-    try:
-        with output_path.open("w", encoding="utf-8") as text_file:
-            if mode == 0:
-                text_file.write(f"Toto je prepis z {pdf_path.stem}\n\n")
-                for index, page in enumerate(document, start=1):
-                    text_file.write("\n" + "-" * 19 + f"\nToto je strana {index}\n\n")
-                    text_file.write(page.get_text() or "")
-            else:
-                omit_pattern = re.compile(r"Zoznam ot.+ / \d+\. strana")
-                for page in document:
-                    page_text = page.get_text() or "[Žiadny extrahovateľný text]\n"
-                    lines = [line for line in page_text.splitlines() if not omit_pattern.match(line)]
-                    text_file.write("\n".join(lines) + "\n")
-    finally:
-        document.close()
-
-    print(f"Uložené: {output_path.name}")
-    if os.name == "nt":
-        os.startfile(output_path)
-
-
-def parse_pages(raw, page_count):
-    pages = set()
-    try:
-        for part in raw.split(","):
-            part = part.strip()
-            if not part:
-                continue
-            if "-" in part:
-                start_text, end_text = part.split("-", 1)
-                start = int(start_text.strip())
-                end = int(end_text.strip())
-                if start > end:
-                    start, end = end, start
-                pages.update(range(start, end + 1))
-            else:
-                pages.add(int(part))
-    except ValueError:
-        raise ValueError("Použi čísla strán ako 1,3,5-7.")
-
-    if not pages:
-        raise ValueError("Neboli vybrané žiadne strany.")
-
-    invalid = [page for page in pages if page < 1 or page > page_count]
-    if invalid:
-        raise ValueError(f"Neplatné číslo strany: {invalid}")
-    return {page - 1 for page in pages}
+    output = pdf.extract_text(pdf_path, with_page_separators=(mode == 0))
+    print(f"Uložené: {output.name}")
+    open_path(output)
 
 
 def delete_pdf_pages(folder):
@@ -362,37 +227,15 @@ def delete_pdf_pages(folder):
     if not pdf_path:
         return
 
-    try:
-        import fitz
-    except ImportError as error:
-        print(f"Chýba knižnica: {error}")
-        return
-
-    document = fitz.open(pdf_path)
-    page_count = document.page_count
-    print(f"{pdf_path.name} má {page_count} strán.")
-
+    count = pdf.page_count(pdf_path)
+    print(f"{pdf_path.name} má {count} strán.")
     raw = ask("Strany na vymazanie, napr. 1,3,5-7: ")
     try:
-        pages_to_delete = parse_pages(raw, page_count)
+        output = pdf.delete_pages(pdf_path, parse_pages(raw, count))
     except ValueError as error:
         print(error)
-        document.close()
         return
-
-    pages_to_keep = [index for index in range(page_count) if index not in pages_to_delete]
-    if not pages_to_keep:
-        print("PDF nemôže ostať bez strán.")
-        document.close()
-        return
-
-    output_path = pdf_path.with_name(f"{pdf_path.stem}_modified.pdf")
-    try:
-        document.select(pages_to_keep)
-        document.save(output_path)
-        print(f"Uložené: {output_path.name}")
-    finally:
-        document.close()
+    print(f"Uložené: {output.name}")
 
 
 def rename_pdf(folder):
@@ -402,62 +245,64 @@ def rename_pdf(folder):
             return
 
         new_name = ask(f"Nový názov pre {pdf_path.name} bez .pdf: ")
-        output_path = pdf_path.with_name(f"{new_name}.pdf")
-        if output_path.exists():
-            print(f"{output_path.name} už existuje.")
+        try:
+            target = pdf.rename(pdf_path, naming.validate_base(new_name))
+        except (ValueError, FileExistsError) as error:
+            print(error)
             continue
+        print(f"Premenované na: {target.name}")
 
-        pdf_path.rename(output_path)
-        print(f"Premenované na: {output_path.name}")
-
-        again = ask("Premenovať ďalšie PDF? a/N: ", required=False).lower()
-        if again not in ("a", "y"):
+        if not ask_yes("Premenovať ďalšie PDF?"):
             return
 
 
-def open_folder(folder):
-    os.startfile(folder)
-
-
-def move_jpg_to_folder(folder):
-    folders = [path for path in sorted(folder.iterdir(), key=lambda item: item.name.lower()) if path.is_dir()]
-    source_folder = choose_one(folders, "Zdrojové priečinky")
-    if not source_folder:
+def add_tags_to_table(folder):
+    selected = choose_many(list_tables(folder), "CSV/TSV/XLSX súbory")
+    if not selected:
         return
 
-    destination_text = ask("Cesta k cieľovému priečinku: ")
-    destination = Path(destination_text).expanduser()
-    destination.mkdir(parents=True, exist_ok=True)
+    tag = ask("Tag, ktorý sa pridá tam, kde je Tags prázdne: ")
+    for table_path in selected:
+        fieldnames, rows = read_chosen_table(table_path)
+        if "Tags" not in fieldnames:
+            print(f"{table_path.name}: chýba stĺpec Tags")
+            continue
+        changed = fields.fill_empty_tags(rows, tag)
+        output = tables.output_path(table_path, "tagged")
+        tables.write_anki_tsv(output, fieldnames, rows)
+        print(f"{table_path.name}: uložené {output.name}, upravených riadkov {changed}")
 
-    mode = choose_from_menu("Akcia", ["Kopírovať súbory", "Presunúť súbory"])
-    files = [path for path in source_folder.iterdir() if path.is_file()]
-    if not files:
-        print("V zdrojovom priečinku sa nenašli žiadne súbory.")
+
+def fix_back_column(folder):
+    table_path = choose_one(list_tables(folder), "CSV/TSV/XLSX súbory")
+    if not table_path:
         return
 
-    for file_path in files:
-        target = destination / file_path.name
-        if mode == 0:
-            shutil.copy2(file_path, target)
-            print(f"Skopírované: {file_path.name}")
-        else:
-            shutil.move(str(file_path), str(target))
-            print(f"Presunuté: {file_path.name}")
+    fieldnames, rows = read_chosen_table(table_path)
+    if "Back" not in fieldnames:
+        print("Tento súbor nemá stĺpec Back.")
+        print("Nájdené stĺpce:", ", ".join(fieldnames))
+        return
+
+    changed = fields.fix_back_rows(rows)
+    output = tables.output_path(table_path, "fixed")
+    tables.write_anki_tsv(output, fieldnames, rows)
+    print(f"\nUložené: {output.name}")
+    print(f"Upravených riadkov: {changed}")
+    print("Import do Anki: File → Import → tento .tsv (HTML a stĺpce sa nastavia samé).")
 
 
-def run_option(folder, option):
-    actions = {
-        1: open_folder,
-        2: pdf_to_jpg,
-        3: add_images_to_csv,
-        4: move_jpg_to_folder,
-        5: extract_text_from_pdf,
-        6: delete_pdf_pages,
-        7: rename_pdf,
-        8: add_tags_to_csv,
-        9: fix_back_column,
-    }
-    actions[option](folder)
+MENU = [
+    ("Otvoriť tento priečinok", open_folder),
+    ("Exportovať PDF do JPG", pdf_to_jpg),
+    ("Pridať obrázkové tagy (CSV/TSV/XLSX)", add_images_to_table),
+    ("Kopírovať / presunúť obrázky", move_images_to_folder),
+    ("Extrahovať TXT z PDF", extract_text_from_pdf),
+    ("Vymazať strany z PDF", delete_pdf_pages),
+    ("Premenovať PDF súbory", rename_pdf),
+    ("Pridať tag (CSV/TSV/XLSX)", add_tags_to_table),
+    ("Opraviť stĺpec Back", fix_back_column),
+]
 
 
 def main():
@@ -465,25 +310,21 @@ def main():
     folder = app_folder()
 
     while True:
-        print(f"\n{APP_NAME}")
+        print("\nAnki Helper")
         print(f"Pracovný priečinok: {folder}")
-        print("1. Otvoriť tento priečinok")
-        print("2. Exportovať PDF do JPG")
-        print("3. Pridať obrázkové tagy do CSV")
-        print("4. Kopírovať / presunúť JPG súbory")
-        print("5. Extrahovať TXT z PDF")
-        print("6. Vymazať strany z PDF")
-        print("7. Premenovať PDF súbory")
-        print("8. Pridať tag do CSV")
-        print("9. Opraviť stĺpec Back")
-        print("10. Koniec")
+        for index, (label, _action) in enumerate(MENU, start=1):
+            print(f"{index}. {label}")
+        print(f"{len(MENU) + 1}. Koniec")
 
-        choice = ask_int("Vyber možnosť: ", 1, 10)
-        if choice == 10:
+        choice = ask_int("Vyber možnosť: ", 1, len(MENU) + 1)
+        if choice == len(MENU) + 1:
             print("Koniec.")
             return
 
-        run_option(folder, choice)
+        try:
+            MENU[choice - 1][1](folder)
+        except Exception as error:
+            print(f"\nChyba: {error}")
         pause()
 
 
