@@ -17,3 +17,12 @@ Thumbs.db
 .vscode/
 .idea/
 .pytest_cache/
+
+# studijne subory
+*.pdf
+*.csv
+*.tsv
+*.jpg
+jpg_*/
+*.xlsx
+!Excel_sablona.xlsx
